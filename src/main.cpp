@@ -2,8 +2,9 @@
 #include <bits/stdc++.h>
 #include <unistd.h> //fork()
 
-#include "../include/ProxyParser.h"
 #include "../include/ProxyServer.h"
+#include "../include/ProxyParser.h"
+#include "../include/spider.h"
 
 using namespace std;
 

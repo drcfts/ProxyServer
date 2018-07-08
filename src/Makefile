@@ -8,11 +8,11 @@ LDIR = ../lib
 
 LIBS= -lm
 
-_DEPS =	ProxyParser.h ProxyServer.h
+_DEPS =	ProxyParser.h ProxyServer.h spider.h
 
 DEPS =	$(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = ProxyParser.o ProxyServer.o main.o
+_OBJ = ProxyParser.o ProxyServer.o main.o spider.o
 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
