@@ -345,7 +345,7 @@ int RequestFields_parse(RequestFields *parse, const char *buf, int buflen){
 
   if (strcmp (parse->method, "GET")) {
 	  debug( "invalid request line, method not 'GET': %s\n",
-		 parse->method);
+		parse->method);
 	  free(tmp_buf);
 	  free(parse->buf);
 	  parse->buf = NULL;

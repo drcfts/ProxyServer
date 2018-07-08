@@ -3,9 +3,6 @@
 
 #include <iostream>
 
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <arpa/inet.h>
 #include <strings.h>
 #include <stdlib.h>
 #include <unistd.h> // close()
@@ -13,6 +10,7 @@
 #include <netdb.h> // getaddrinfo
 
 using namespace std;
+
 
 // Começa a aceitar requests
 void ProxyServer::CreateServerSocket(int port){
@@ -32,7 +30,8 @@ void ProxyServer::CreateServerSocket(int port){
 
   ::bind(mSocketDescriptor, sa, sizeof(serverAddr));
 
-  const size_t MaxQueuedRequests = 64;
+  //Máximo de 20 requests na lista
+  const size_t MaxQueuedRequests = 20;
   listen(mSocketDescriptor, MaxQueuedRequests);
   cout << "Listening on port: " << port << endl;
 }
@@ -45,22 +44,29 @@ ProxyServer::ProxyServer(int port){
 /* Métodos públicos */
 
 
-void ProxyServer::ProxyRequest(){
-  struct sockaddr_in clientAddr;
-  socklen_t clientAddrSize = sizeof(clientAddr);
+void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, socklen_t clientAddrSize){
 
+  //Conexao com socket to cliente passa a ser externamente
   //Escrever a conexao do cliente a vir pro sockaddr
-  int client_fd = accept(mSocketDescriptor, (struct sockaddr *) &clientAddr, &clientAddrSize);
+  //struct sockaddr_in clientAddr;
+  //socklen_t clientAddrSize = sizeof(clientAddr);
+  //int client_fd = accept(mSocketDescriptor, (struct sockaddr *) &clientAddr, &clientAddrSize);
 
   //Pega enderco do cliente e transforma em in_addr
-  const char *clientIPAddress = inet_ntoa(clientAddr.sin_addr);
-  uint16_t clientPort = ntohs(clientAddr.sin_port);
-  cout << "Server got connection from client:" << clientIPAddress << clientPort << endl;
+  //const char *clientIPAddress = inet_ntoa(clientAddr.sin_addr);
+  //uint16_t clientPort = ntohs(clientAddr.sin_port);
+  //cout << "Server got connection from client:" << clientIPAddress << clientPort << endl;
 
   //encaminhamento do request
   int MAX_BUFFER_SIZE = 5000;
   char buf[MAX_BUFFER_SIZE];
   char *request_message = (char *) malloc(MAX_BUFFER_SIZE);
+
+  if(request_message == NULL){
+    cout << "Error in memory allocation!" << endl;
+    exit(-4);
+  }
+
   request_message[0] = '\0';
   int total_received_bits = 0;
 
@@ -86,24 +92,24 @@ void ProxyServer::ProxyRequest(){
 
   //Faz o parser da msg recebida
   if(RequestFields_parse(req, request_message, strlen(request_message))<0){
-    cout << " Request message format not supported" << endl;
+    //cout << " Request message format not supported" << endl;
   }
   else{
     if(req->port == NULL){
       req->port = (char *) "80";
     }
     char* req_string = RequestToString(req);
-    cout << "req_string: " << req_string << endl;
+    //cout << "req_string: " << req_string << endl;
 
-    cout << "client host n port: " << req->host << req->port << endl;
+    //cout << "client host n port: " << req->host << req->port << endl;
     // Conexao ao socket remote_socket
     int remote_socket = CreateRemoteSocket(req->host, req->port);
 
-    cout << "SendRequestRemote: " << remote_socket << " total received bits" << total_received_bits << endl;
+    //cout << "SendRequestRemote: " << remote_socket << " total received bits" << total_received_bits << endl;
 
     SendRequestRemote(req_string, remote_socket, total_received_bits);
 
-    cout << "ProxyBackClient" << endl;
+    //cout << "ProxyBackClient" << endl;
     //Manda de volta pro cliente
     ProxyBackClient(client_fd, remote_socket);
     //Dá free na estrutura criada
@@ -124,16 +130,17 @@ void ProxyServer::ProxyBackClient(int client_fd, int remote_socket){
   char received_buf[MAX_BUFFER_SIZE];
 
   while((buff_len = recv(remote_socket, received_buf, MAX_BUFFER_SIZE, 0)) > 0){
-    cout << "received from remote: " << buff_len << endl;
+    //cout << "received from remote: " << buff_len << endl;
     int totalsent = 0;
     int senteach;
     while(totalsent < buff_len){
       if((senteach = send(client_fd, (void *) (received_buf + totalsent), buff_len - totalsent, 0)) < 0){
+        cout << "Error in sending to server\n" << endl;
         exit(1);
       }
 
       totalsent += senteach;
-      cout << "sending back to client" << totalsent << endl;
+      //cout << "sending back to client" << totalsent << endl;
       //Zera o buffer pra ler dnv
       memset(received_buf, 0, sizeof(received_buf));
     } //while interno
@@ -176,18 +183,18 @@ void ProxyServer::SendRequestRemote(const char *req_string, int remote_socket, i
 
   int totalsent = 0;
   int senteach;
-  cout << "SendRequestRemote: " << totalsent << " , " << buff_length << endl;
+  //cout << "SendRequestRemote: " << totalsent << " , " << buff_length << endl;
 
   while(totalsent < buff_length){
-    cout << "about to send to remote" << endl;
+    //cout << "about to send to remote" << endl;
     //Envia em parcelas (retorono do numero de bits enviado)
     if ((senteach = send(remote_socket, (void *) (req_string + totalsent), buff_length - totalsent, 0)) < 0) {
             cout << "error sending to the remote" << endl;
     } //if
 
-    cout << "sent to remote" << senteach << endl;
+    //cout << "sent to remote" << senteach << endl;
     totalsent += senteach;
-    cout << "total sent to remote: " << totalsent << endl;
+    //cout << "total sent to remote: " << totalsent << endl;
   } //while
 }
 
