@@ -5,6 +5,7 @@
 #include "../include/ProxyServer.h"
 #include "../include/ProxyParser.h"
 #include "../include/spider.h"
+#include "../include/spider_tree.h"
 
 using namespace std;
 
@@ -39,6 +40,13 @@ int main(int argc, char const *argv[]) {
   int proxy_fd = httpproxy.getProxyDescriptor();
   struct sockaddr_in clientAddr;
   socklen_t clientAddrSize = sizeof(clientAddr);
+
+
+  //TESTE SPIDER_TREE
+  add_url((char *) "www.cic.unb.br");
+  add_dir((char *) "www.cic.unb.br", (char *) "/o-cic/pessoas/");
+  add_dir((char *) "www.cic.unb.br", (char *) "/pesquisa/laboratorios/");
+  //FIM DO TESTE DO SPIDER_TREE
 
   //Loop para executar
   while(1){
