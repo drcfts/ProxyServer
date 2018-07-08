@@ -51,6 +51,7 @@ int main(int argc, char const *argv[]) {
     //Se for filho, cria uma conexao
     if(PID == 0){
       httpproxy.ProxyRequest(client_fd, clientAddr, clientAddrSize);
+      //spider_get_response(client_fd, clientAddr, clientAddrSize);
     }
     //Se for pai, apenas fecha o descriptor no processo pai
     else{
