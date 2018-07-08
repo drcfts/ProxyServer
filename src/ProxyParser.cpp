@@ -4,7 +4,7 @@
 #define MIN_REQ_LEN 4
 
 #define DEFAULT_NHDRS 8
-#define MAX_CONNECTIONS 10
+#define MAX_CONNECTIONS 20
 
 static const char *root_abs_path = "/";
 
@@ -46,7 +46,7 @@ int HeaderFields_set(RequestFields *req_fields, const char *key, const char *val
   }
 
   hf = req_fields->headers + req_fields->headersused;
-  req_fields->headersused++;
+  req_fields->headersused = req_fields->headersused + 1;
 
   //Aloca espaco e copia a chave
   hf->key = (char *)malloc(strlen(key)+1);
@@ -323,13 +323,16 @@ int RequestFields_parse(RequestFields *parse, const char *buf, int buflen){
   index = strstr(tmp_buf, "\r\n\r\n");
   if(index == NULL){
     debug("Invalid request, no end of header\n");
+    free(tmp_buf);
     return -1;
   }
 
   //Copia a linha de requisicao para parse->buf
   index = strstr(tmp_buf, "\r\n");
-  parse->buf = (char *) malloc((index-tmp_buf)+1);
-  parse->buflen = (index-tmp_buf)+1;
+  if(parse->buf == NULL){
+    parse->buf = (char *) malloc((index-tmp_buf)+1);
+    parse->buflen = (index-tmp_buf)+1;
+  }
   memcpy(parse->buf, tmp_buf, index - tmp_buf);
   parse->buf[index - tmp_buf] = '\0';
 
@@ -420,6 +423,8 @@ int RequestFields_parse(RequestFields *parse, const char *buf, int buflen){
     free(tmp_buf);
     free(parse->buf);
     parse->buf = NULL;
+    //Zerar tbm o path, pq colocou um path errado
+    parse->path = NULL;
     return -1;
   } else{
       //copia parse->path, com um / de prefixo
@@ -438,7 +443,9 @@ int RequestFields_parse(RequestFields *parse, const char *buf, int buflen){
     debug("Invalid request line, missing host\n");
     free(tmp_buf);
     free(parse->buf);
+    free(parse->path);
     parse->buf = NULL;
+    parse->path = NULL;
     return -1;
   }
 

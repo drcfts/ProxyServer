@@ -40,13 +40,12 @@ int main(int argc, char const *argv[]) {
   socklen_t clientAddrSize = sizeof(clientAddr);
 
   //Loop para executar
-  while(true){
+  while(1){
 
     int client_fd = accept(proxy_fd, (struct sockaddr *)&clientAddr, &clientAddrSize);
 
     //Fork duplica o processo: para o pai, retorna o id do filho; para o filho, retorna 0
     int PID = fork();
-    cout << "proxy request" << endl;
 
     //Se for filho, cria uma conexao
     if(PID == 0){

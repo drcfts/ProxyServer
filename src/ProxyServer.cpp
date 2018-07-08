@@ -22,10 +22,10 @@ void ProxyServer::CreateServerSocket(int port){
 
   struct sockaddr_in serverAddr;
   bzero(&serverAddr, sizeof(serverAddr));
-  serverAddr.sin_family = AF_INET;
+  serverAddr.sin_family = AF_INET;  //IPV4
   //Colocar proprio endereco
-  serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  serverAddr.sin_port = htons(port);
+  serverAddr.sin_addr.s_addr = htonl(INADDR_ANY); //Fornece proprio endereco
+  serverAddr.sin_port = htons(port);  //Fornece porta em que estara escutando
   struct sockaddr *sa = (struct sockaddr *) &serverAddr;
 
   ::bind(mSocketDescriptor, sa, sizeof(serverAddr));
@@ -74,18 +74,27 @@ void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, soc
   while(strstr(request_message, "\r\n\r\n") == NULL){
     //Retorna numero de bytes recebidos, armazena em buf
     int byte_recvd = recv(client_fd, buf, MAX_BUFFER_SIZE, 0);
-    total_received_bits += byte_recvd;
-    //Ultima posicao
-    buf[byte_recvd] = '\0';
 
-    if(total_received_bits > MAX_BUFFER_SIZE){
-      MAX_BUFFER_SIZE *=2;
-      request_message = (char *) realloc(request_message, MAX_BUFFER_SIZE);
-    } //if
+    if(byte_recvd < 0){
+      fprintf(stderr,"Error! Couldn't receive client's request");
+    }
+    else if(byte_recvd == 0){
+      //fprintf(stderr,"0 bytes received!");
+      break;
+    }
+    else{
+      total_received_bits += byte_recvd;
+      //Ultima posicao
+      buf[byte_recvd] = '\0';
+
+      if(total_received_bits > MAX_BUFFER_SIZE){
+        MAX_BUFFER_SIZE *=2;
+        request_message = (char *) realloc(request_message, MAX_BUFFER_SIZE);
+      } //if
+    } //else
     // Vai recebendo de pouco em pouco a requisição e armazenando no buffer
     strcat(request_message, buf);
   } //while
-  cout << "Request_Message: " << request_message << endl;
 
   RequestFields *req;
   req = RequestFields_create();
@@ -93,14 +102,17 @@ void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, soc
   //Faz o parser da msg recebida
   if(RequestFields_parse(req, request_message, strlen(request_message))<0){
     //cout << " Request message format not supported" << endl;
+    RequestFields_destroy(req);
+    close(client_fd);
   }
   else{
     if(req->port == NULL){
       req->port = (char *) "80";
     }
     char* req_string = RequestToString(req);
-    //cout << "req_string: " << req_string << endl;
+    cout << "Request_Message: " << request_message << endl;
 
+    //cout << "req_string: " << req_string << endl;
     //cout << "client host n port: " << req->host << req->port << endl;
     // Conexao ao socket remote_socket
     int remote_socket = CreateRemoteSocket(req->host, req->port);
@@ -131,6 +143,8 @@ void ProxyServer::ProxyBackClient(int client_fd, int remote_socket){
 
   while((buff_len = recv(remote_socket, received_buf, MAX_BUFFER_SIZE, 0)) > 0){
     //cout << "received from remote: " << buff_len << endl;
+
+
     int totalsent = 0;
     int senteach;
     while(totalsent < buff_len){
@@ -198,9 +212,10 @@ void ProxyServer::SendRequestRemote(const char *req_string, int remote_socket, i
   } //while
 }
 
+//Monta o objeto em string (para envio pro servidor remoto)
 char* ProxyServer::RequestToString(RequestFields *req){
   //Set dos headers
-  HeaderFields_set(req, "host", req->host);
+  HeaderFields_set(req, "Host", req->host);
   //Conexao nao persistente
   HeaderFields_set(req, "Connection", "close");
 
