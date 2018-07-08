@@ -43,9 +43,9 @@ int main(int argc, char const *argv[]) {
 
 
   //TESTE SPIDER_TREE
-  add_url((char *) "www.cic.unb.br");
-  add_dir((char *) "www.cic.unb.br", (char *) "/o-cic/pessoas/");
-  add_dir((char *) "www.cic.unb.br", (char *) "/pesquisa/laboratorios/");
+  //add_url((char *) "www.cic.unb.br");
+  //add_dir((char *) "www.cic.unb.br", (char *) "/o-cic/pessoas/");
+  //add_dir((char *) "www.cic.unb.br", (char *) "/pesquisa/laboratorios/");
   //FIM DO TESTE DO SPIDER_TREE
 
   //Loop para executar
