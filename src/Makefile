@@ -1,6 +1,6 @@
 CC= g++
 
-CFLAGS=	-g -I$(IDIR)
+CFLAGS= -Wall -g -I$(IDIR)
 
 ODIR = obj
 IDIR = ../include

@@ -9,6 +9,19 @@
 
 using namespace std;
 
+int main () {
+
+        char url[5000];
+        char *response;
+
+        scanf(" %s", url);
+
+        response = spider_get_data(url);
+
+        printf("Data:\n%s\n", response);
+}
+
+/*
 int main(int argc, char const *argv[]) {
   int num_port = 0;
 
@@ -61,3 +74,4 @@ int main(int argc, char const *argv[]) {
 
   return 0;
 }
+*/

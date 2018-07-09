@@ -11,4 +11,6 @@
 
 char *spider_get_response(char *request);
 
+char *spider_get_data(char *url);
+
 #endif

@@ -7,13 +7,13 @@
 
 using namespace std;
 
-int add_vis(struct web *wb, struct node *nd, char *name) {
+int add_vis(struct web *wb, struct node *nd, char *name, int v) {
         if (nd == NULL || wb == NULL || name == NULL)
                 return 1;
 
         if (nd->num_vis == 0) {
                 nd->num_vis++;
-                nd->vis = (struct node **) malloc(nd->num_vis * sizeof(struct node *));
+                nd->vis = (pair<struct node *, int> *) malloc(nd->num_vis * sizeof(pair<struct node *, int>));
 
                 if (nd->vis == NULL) {
                         nd->num_vis = 0;
@@ -28,16 +28,17 @@ int add_vis(struct web *wb, struct node *nd, char *name) {
                         return -1;
                 }
 
-                nd->vis[nd->num_vis - 1] = new_nd;
+                nd->vis[nd->num_vis - 1].first = new_nd;
+                nd->vis[nd->num_vis - 1].second = v;
                 return 0;
         }
 
         for (int i = 0; i < nd->num_vis; i++)
-                if (strcmp(nd->vis[i]->name, name) == 0)
+                if (strcmp(nd->vis[i].first->name, name) == 0)
                         return 0;
 
         nd->num_vis++;
-        nd->vis = (struct node **) realloc(nd->vis, nd->num_vis * sizeof(struct node *));
+        nd->vis = (pair<struct node *, int> *) realloc(nd->vis, nd->num_vis * sizeof(pair<struct node *, int>));
 
         if (nd->vis == NULL) {
                 nd->num_vis = 0;
@@ -52,7 +53,8 @@ int add_vis(struct web *wb, struct node *nd, char *name) {
                 return -1;
         }
 
-        nd->vis[nd->num_vis - 1] = new_nd;
+        nd->vis[nd->num_vis - 1].first = new_nd;
+        nd->vis[nd->num_vis - 1].second = v;
         return 0;
 }
 

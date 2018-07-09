@@ -12,7 +12,7 @@ struct node {
         char *name;
 
         int num_vis;
-        struct node **vis;
+        pair<struct node *, int> *vis;
 };
 
 struct web {
@@ -27,13 +27,15 @@ struct web {
 
 };
 
-int add_vis(struct web *wb, struct node *nd, char *vis);
+int add_vis(struct web *wb, struct node *nd, char *vis, int v);
 
 struct node *create_node(struct web *wb, char *name);
 
 struct node *obtain_node(struct web *wb, char *name);
 
 int add_node(struct web *wb, struct node *nd);
+
+
 
 struct web *create_web(char *url, char *name);
 
