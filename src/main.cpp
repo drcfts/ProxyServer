@@ -7,6 +7,9 @@
 #include "../include/spider.h"
 #include "../include/spider_web.h"
 #include "../include/html_parser.h"
+#include <mutex>
+
+std::mutex m;
 
 using namespace std;
 
@@ -24,7 +27,7 @@ int main () {
         size_t size_url, size_path;
 
         char *path = spider_separate_url_path(url, &size_url, &size_path);
-        
+
         vector< pair< string, string> > test = get_ref_url(response, url, path);
 
         for ( auto i : test) {
@@ -32,8 +35,8 @@ int main () {
         }
 }
 
-/*
-int main(int argc, char const *argv[]) {
+
+/*int main(int argc, char const *argv[]) {
   int num_port = 0;
 
   //Checagem do numero de argumentos
@@ -75,7 +78,9 @@ int main(int argc, char const *argv[]) {
 
     //Se for filho, cria uma conexao
     if(PID == 0){
-      httpproxy.ProxyRequest(client_fd, clientAddr, clientAddrSize);
+      m.lock();
+      httpproxy.ProxyRequest(client_fd, 1);
+      m.unlock();
     }
     //Se for pai, apenas fecha o descriptor no processo pai
     else{

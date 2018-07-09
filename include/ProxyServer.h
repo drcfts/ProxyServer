@@ -10,7 +10,7 @@
 class ProxyServer{
 public:
   ProxyServer(int port);
-  void ProxyRequest(int client_fd, struct sockaddr_in clientAddr, socklen_t clientAddrSize);
+  void ProxyRequest(int client_fd, int inspection);
 
   //Descritor de socket vindo da função socket
   int mSocketDescriptor;
@@ -31,6 +31,8 @@ private:
   //Transforma objeto pra string
   char* RequestToString(RequestFields *req);
 
+  //Intercepta requisição do browser
+  void InterceptRequest(RequestFields *req);
 
 };
 

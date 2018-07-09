@@ -44,7 +44,7 @@ ProxyServer::ProxyServer(int port){
 /* Métodos públicos */
 
 
-void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, socklen_t clientAddrSize){
+void ProxyServer::ProxyRequest(int client_fd, int inspection){
 
   //Conexao com socket to cliente passa a ser externamente
   //Escrever a conexao do cliente a vir pro sockaddr
@@ -110,7 +110,10 @@ void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, soc
       req->port = (char *) "80";
     }
     char* req_string = RequestToString(req);
-    cout << "Request_Message: " << request_message << endl;
+
+    if(inspection){
+      InterceptRequest(req);
+    }
 
     //cout << "req_string: " << req_string << endl;
     //cout << "client host n port: " << req->host << req->port << endl;
@@ -242,3 +245,58 @@ char* ProxyServer::RequestToString(RequestFields *req){
 
   return serverReq;
 }
+
+void ProxyServer::InterceptRequest(RequestFields *req){
+  HeaderFields *auxHeaders = NULL;
+  char edit_answer[5];
+  char field_answer[50];
+  char value_answer[100];
+
+  cout << "***** Request Intercepted *****\n" << endl;
+  char *req_string = RequestToString(req);
+  cout << req_string << endl;
+
+  do {
+  //Zera as strings
+  memset(edit_answer,0,strlen(edit_answer));
+  memset(field_answer,0,strlen(field_answer));
+  memset(value_answer,0,strlen(value_answer));
+  cout << "Do you want to edit the request? (Y/N)\n";
+  scanf ("%[^\n]%*c", edit_answer);
+  char *index = strstr(edit_answer, "\n");
+  if(index!=NULL){
+    edit_answer[index-edit_answer] = '\0';
+  }
+    //So faz se for sim
+    if((strstr(edit_answer, "Y") != NULL) || (strstr(edit_answer, "y") != NULL)){
+      cout << "What field do you want to edit?" << endl;
+      scanf ("%[^\n]%*c", field_answer);
+      index = strstr(field_answer, "\n");
+      if(index!=NULL){
+        field_answer[index-field_answer] = '\0';
+      }
+      if((auxHeaders = HeaderFields_get(req, field_answer))!=NULL){
+        cout << "What value do you want?" << endl;
+        scanf ("%[^\n]%*c", value_answer);
+        index = strstr(value_answer, "\n");
+        if(index!=NULL){
+          value_answer[index-value_answer] = '\0';
+        }
+        HeaderFields_set(req, field_answer, value_answer);
+      }
+      else{
+        cout << "Invalid field |" << field_answer << "|\n";
+      } //else
+
+    } //if((strstr(edit_answer, "Y") != NULL) || (strstr(edit_answer, "y") != NULL))
+  } while((strstr(edit_answer, "Y") != NULL) || (strstr(edit_answer, "y") != NULL));
+  req_string = RequestToString(req);
+  cout << "\nNew Request_Message: \n" << req_string << endl;
+  cout << "\n****** End of inspection *****\n" << endl;
+
+  memset(edit_answer,0,strlen(edit_answer));
+  memset(field_answer,0,strlen(field_answer));
+  memset(value_answer,0,strlen(value_answer));
+  return;
+
+} //funcao
