@@ -1,4 +1,4 @@
-<a href= ping= >
+<a href="" ping="" >
 <applet code= archive= codebase= >
 <area href= >
 <audio src= >
@@ -19,6 +19,10 @@
 <object codebase= data= >
 <q cite= >
 <script src= >
+
+<script>
+
+</script>
 <source src= srcset= >
 <track src= >
 <video poster= src= >

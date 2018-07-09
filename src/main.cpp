@@ -6,6 +6,7 @@
 #include "../include/ProxyParser.h"
 #include "../include/spider.h"
 #include "../include/spider_web.h"
+#include "../include/html_parser.h"
 
 using namespace std;
 
@@ -18,7 +19,17 @@ int main () {
 
         response = spider_get_data(url);
 
-        printf("Data:\n%s\n", response);
+        //printf("Data:\n%s\n", response);
+
+        size_t size_url, size_path;
+
+        char *path = spider_separate_url_path(url, &size_url, &size_path);
+        
+        vector< pair< string, string> > test = get_ref_url(response, url, path);
+
+        for ( auto i : test) {
+                cout << "\nUrl: " << i.first << "\nPath: " << i.second << "\n";
+        }
 }
 
 /*

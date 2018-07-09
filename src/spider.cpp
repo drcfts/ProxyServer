@@ -155,7 +155,7 @@ int spider_dns_get_ip(char *url, char *port) {
 
         struct timeval timeout;
 
-        timeout.tv_sec = 7;
+        timeout.tv_sec = 4;
         timeout.tv_usec = 0;
 
         setsockopt(sck_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout) );
