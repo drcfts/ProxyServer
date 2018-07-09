@@ -1,0 +1,44 @@
+<a href= ping= >
+<applet code= archive= codebase= >
+<area href= >
+<audio src= >
+<base href= >
+<blockquote cite= >
+<body background= >
+<button formaction=  >
+<embed src= >
+<form action= >
+<frame longdesc= src= >
+<head profile= >
+<html xmls= >
+<iframe src= >
+<img longdesc= src= srcset= >
+<input formaction= src= >
+<ins cite= >
+<link href= >
+<object codebase= data= >
+<q cite= >
+<script src= >
+<source src= srcset= >
+<track src= >
+<video poster= src= >
+
+Absolute:
+
+http://
+https://
+//
+
+Relative:
+asdf     //from curr dir
+/asfdgsd //from root
+../asfgdd //from curr dir
+
+Comment:
+<!-- -->
+
+<script>
+	comment
+<\script>
+
+Tomar cuidado com < e > dentro do javascript
