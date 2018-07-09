@@ -13,30 +13,30 @@ std::mutex m;
 
 using namespace std;
 
-int main () {
+// int main () {
+//
+//         char url[5000] = "www.unb.br";
+//         char *response;
+//
+//         //scanf(" %s", url);
+//
+//         response = spider_get_data(url);
+//
+//         //printf("Data:\n%s\n", response);
+//
+//         size_t size_url, size_path;
+//
+//         char *path = spider_separate_url_path(url, &size_url, &size_path);
+//
+//         vector< pair< string, string> > test = get_ref_url(response, url, path);
+//
+//         for ( auto i : test) {
+//                 cout << "\nUrl: " << i.first << "\nPath: " << i.second << "\n";
+//         }
+// }
 
-        char url[5000] = "www.unb.br";
-        char *response;
 
-        //scanf(" %s", url);
-
-        response = spider_get_data(url);
-
-        //printf("Data:\n%s\n", response);
-
-        size_t size_url, size_path;
-
-        char *path = spider_separate_url_path(url, &size_url, &size_path);
-
-        vector< pair< string, string> > test = get_ref_url(response, url, path);
-
-        for ( auto i : test) {
-                cout << "\nUrl: " << i.first << "\nPath: " << i.second << "\n";
-        }
-}
-
-
-/*int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) {
   int num_port = 0;
 
   //Checagem do numero de argumentos
@@ -74,6 +74,7 @@ int main () {
     int client_fd = accept(proxy_fd, (struct sockaddr *)&clientAddr, &clientAddrSize);
 
     //Fork duplica o processo: para o pai, retorna o id do filho; para o filho, retorna 0
+
     int PID = fork();
 
     //Se for filho, cria uma conexao
@@ -90,4 +91,3 @@ int main () {
 
   return 0;
 }
-*/

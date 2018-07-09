@@ -8,6 +8,9 @@
 #include <unistd.h> // close()
 
 #include <netdb.h> // getaddrinfo
+#include <mutex>
+
+std::mutex m_inspect;
 
 using namespace std;
 
@@ -112,7 +115,9 @@ void ProxyServer::ProxyRequest(int client_fd, int inspection){
     char* req_string = RequestToString(req);
 
     if(inspection){
+      m_inspect.lock();
       InterceptRequest(req);
+      m_inspect.unlock();
     }
 
     //cout << "req_string: " << req_string << endl;
@@ -249,8 +254,6 @@ char* ProxyServer::RequestToString(RequestFields *req){
 void ProxyServer::InterceptRequest(RequestFields *req){
   HeaderFields *auxHeaders = NULL;
   char edit_answer[5];
-  char field_answer[50];
-  char value_answer[100];
 
   cout << "***** Request Intercepted *****\n" << endl;
   char *req_string = RequestToString(req);
@@ -259,8 +262,6 @@ void ProxyServer::InterceptRequest(RequestFields *req){
   do {
   //Zera as strings
   memset(edit_answer,0,strlen(edit_answer));
-  memset(field_answer,0,strlen(field_answer));
-  memset(value_answer,0,strlen(value_answer));
   cout << "Do you want to edit the request? (Y/N)\n";
   scanf ("%[^\n]%*c", edit_answer);
   char *index = strstr(edit_answer, "\n");
@@ -269,6 +270,11 @@ void ProxyServer::InterceptRequest(RequestFields *req){
   }
     //So faz se for sim
     if((strstr(edit_answer, "Y") != NULL) || (strstr(edit_answer, "y") != NULL)){
+      char field_answer[50];
+      char value_answer[100];
+      memset(field_answer,0,strlen(field_answer));
+      memset(value_answer,0,strlen(value_answer));
+
       cout << "What field do you want to edit?" << endl;
       scanf ("%[^\n]%*c", field_answer);
       index = strstr(field_answer, "\n");
@@ -295,8 +301,7 @@ void ProxyServer::InterceptRequest(RequestFields *req){
   cout << "\n****** End of inspection *****\n" << endl;
 
   memset(edit_answer,0,strlen(edit_answer));
-  memset(field_answer,0,strlen(field_answer));
-  memset(value_answer,0,strlen(value_answer));
+
   return;
 
 } //funcao
