@@ -43,7 +43,20 @@ typedef struct st_ParsedRequest {
   size_t headerslen;
 } RequestFields;
 
-// Requisições
+typedef struct st_ParsedResponse{
+  char *version;
+  char *statusCode;
+  char *phrase;
+  char *buf;  // State Line parseada
+  size_t buflen;
+  HeaderFields *headers;
+  size_t headersused;
+  size_t headerslen;
+  char *body; /**< Corpo da resposta */
+  size_t bodylen;
+} ResponseFields;
+
+/* Requisições */
 
 // Criacao de um objeto de parse vazio
 RequestFields* RequestFields_create();
@@ -63,19 +76,42 @@ int RequestFields_unparse_headers(RequestFields *rf, char *buf, size_t buflen);
 // Cálculo do comprimento total da requisição
 size_t RequestFields_totalLen(RequestFields *rf);
 
+/* Respostas */
+
+ResponseFields* ResponseFields_create();
+
+// Parse do buffer recebido em buf, com tamanho buflen
+int ResponseFields_parse(ResponseFields *parse, const char *buf, int buflen);
+
+// Destruição do objeto
+void ResponseFields_destroy(ResponseFields *rf);
+
+// Escreve de novo o buffer inteiro a partir de um objeto RequestFields
+int ResponseFields_unparse(ResponseFields *rf, char *buf, size_t buflen);
+
+// Recuperação do cabeçalho do buffer, sem a state Line
+int ResponseFields_unparse_headers(ResponseFields *rf, char *buf, size_t buflen);
+
+// Cálculo do comprimento total da requisição
+size_t ResponseFields_totalLen(ResponseFields *rf);
+
 // Somente cabeçalho
 
 // Cálculo do comprimento dos headers + \r\n
 size_t HeaderFields_headersLen(RequestFields *rf);
+size_t HeaderFields_headersLen(ResponseFields *rf);
 
 // Construcao do objeto Header pelas chaves + valores
 int HeaderFields_set(RequestFields *rf, const char *key, const char *value);
+int HeaderFields_set(ResponseFields *rf, const char *key, const char *value);
 
 // Obtencao de uma struct de cabecalhos a partir do objeto de requisicao
 HeaderFields* HeaderFields_get(RequestFields *rf, const char *key);
+HeaderFields* HeaderFields_get(ResponseFields *rf, const char *key);
 
 // Remocao das chaves/valores do objeto
 int HeaderFields_pop(RequestFields *rf, const char *key);
+int HeaderFields_pop(ResponseFields *rf, const char *key);
 
 
 #endif

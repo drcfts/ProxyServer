@@ -60,6 +60,7 @@ void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, soc
   //encaminhamento do request
   int MAX_BUFFER_SIZE = 5000;
   char buf[MAX_BUFFER_SIZE];
+  char recv_buf[MAX_BUFFER_SIZE];
   char *request_message = (char *) malloc(MAX_BUFFER_SIZE);
 
   if(request_message == NULL){
@@ -67,10 +68,17 @@ void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, soc
     exit(-4);
   }
 
+  char *response_message = (char *) malloc(MAX_BUFFER_SIZE);
+
+  if(response_message == NULL){
+    cout << "Error in memory allocation!" << endl;
+    exit(-4);
+  }
+
   request_message[0] = '\0';
   int total_received_bits = 0;
 
-  //recebe n requests do cliente do strem pro buffer
+  //recebe n chunks do cliente do strem pro buffer
   while(strstr(request_message, "\r\n\r\n") == NULL){
     //Retorna numero de bytes recebidos, armazena em buf
     int byte_recvd = recv(client_fd, buf, MAX_BUFFER_SIZE, 0);
@@ -121,14 +129,69 @@ void ProxyServer::ProxyRequest(int client_fd, struct sockaddr_in clientAddr, soc
 
     SendRequestRemote(req_string, remote_socket, total_received_bits);
 
+    //Recebimento
+    // MAX_BUFFER_SIZE = 5000;
+    // response_message[0] = '\0';
+    // total_received_bits = 0;
+    //
+    // //recebe n chunks do remote do strem pro buffer
+    // while(int byte_recvd = recv(remote_socket, recv_buf, MAX_BUFFER_SIZE, 0) > 0){
+    //   //Retorna numero de bytes recebidos, armazena em buf
+    //
+    //   if(byte_recvd < 0){
+    //     fprintf(stderr,"Error! Couldn't receive remote's request");
+    //   }
+    //   else{
+    //     total_received_bits += byte_recvd;
+    //     //Ultima posicao
+    //     recv_buf[byte_recvd] = '\0';
+    //
+    //     if(total_received_bits > MAX_BUFFER_SIZE){
+    //       MAX_BUFFER_SIZE *=2;
+    //       response_message = (char *) realloc(response_message, MAX_BUFFER_SIZE);
+    //     } //if
+    //   } //else
+    //   // Vai recebendo de pouco em pouco a requisição e armazenando no buffer
+    //   strcat(response_message, recv_buf);
+    // } //while
+    //
+    // ResponseFields *resp;
+    // resp = ResponseFields_create();
+    //
+    // //Faz o parser da msg recebida
+    // if(ResponseFields_parse(resp, response_message, strlen(response_message))<0){
+    //   //cout << "Response message format not supported" << endl;
+    //   ResponseFields_destroy(resp);
+    //   close(remote_socket);
+    // }
+    // else{
+    //
+    //   char* resp_string = ResponseToString(resp);
+    //   cout << "Response_Message: " << response_message << endl;
+    //
+    //   char* char_index = strstr(resp_string, "\r\n\r\n");
+    //   int size = (char_index - resp_string) + 4 + resp->bodylen;
+    //
+    //   send(client_fd, resp_string, size, 0);
+
+      // int totalsent = 0;
+      // int senteach = 0;
+      // while(totalsent < total_received_bits){
+      //   if((senteach = send(client_fd, (void *) (resp_string + totalsent), buff_len - totalsent, 0)) < 0){
+      //     cout << "Error in sending to server\n" << endl;
+      //     exit(1);
+      //   }
+
     //cout << "ProxyBackClient" << endl;
+
     //Manda de volta pro cliente
     ProxyBackClient(client_fd, remote_socket);
     //Dá free na estrutura criada
     RequestFields_destroy(req);
     close(client_fd);
     close(remote_socket);
-  } //else
+  //} //else response
+} //else request
 
 } //funcao
 
@@ -241,4 +304,34 @@ char* ProxyServer::RequestToString(RequestFields *req){
   free(headersBuf);
 
   return serverReq;
+}
+
+char* ProxyServer::ResponseToString(ResponseFields *resp){
+  int headersLen = HeaderFields_headersLen(resp);
+  char *headersBuf;
+  headersBuf = (char*)malloc(headersLen + 1);
+  ResponseFields_unparse_headers(resp, headersBuf, headersLen);
+  headersBuf[headersLen] = '\0';
+
+  int response_size = strlen(resp->version) + strlen(resp->statusCode) + strlen(resp->phrase)
+  + headersLen + 4;
+
+  char *serverResp;
+  serverResp = (char *)malloc(response_size + 1);
+  serverResp[0] = '\0';
+
+  strcpy(serverResp, resp->version);
+  strcat(serverResp, " ");
+  strcat(serverResp, resp->statusCode);
+  strcat(serverResp, " ");
+  strcat(serverResp, resp->phrase);
+  strcat(serverResp, "\r\n");
+  strcat(serverResp, headersBuf);
+  strcat(serverResp, "\r\n");
+  strcat(serverResp, resp->body);
+  strcat(serverResp, "\r\n");
+
+  free(headersBuf);
+
+  return serverResp;
 }

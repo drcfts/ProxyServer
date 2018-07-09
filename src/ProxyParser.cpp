@@ -1,4 +1,5 @@
 #include "../include/ProxyParser.h"
+#include <string>
 
 #define MAX_REQ_LEN 65535
 #define MIN_REQ_LEN 4
@@ -23,12 +24,16 @@ void debug(const char * format, ...) {
 // Print de uma linha de requisição
 int RequestFields_printRequestLine(RequestFields *req_fields, char *buf, size_t buflen,
 size_t *tmp);
+int ResponseFields_printStateLine(ResponseFields *req_fields, char *buf, size_t buflen,
+size_t *tmp);
 
 // Obtém tamanho da linha de requisição
 size_t RequestFields_requestLineLen(RequestFields *req_fields);
+size_t ResponseFields_stateLineLen(ResponseFields *req_fields);
 
 /* Funções públicas */
 
+//Set pros headers de requests e responses
 int HeaderFields_set(RequestFields *req_fields, const char *key, const char *value){
 
   HeaderFields *hf;
@@ -66,6 +71,44 @@ int HeaderFields_set(RequestFields *req_fields, const char *key, const char *val
   return 0;
 }
 
+int HeaderFields_set(ResponseFields *req_fields, const char *key, const char *value){
+
+  HeaderFields *hf;
+  HeaderFields_pop(req_fields, key);
+
+  // Se o que esta sendo usado eh maior que o previamente estabelecido, dobra-se a capacidade da lista
+  if(req_fields->headerslen <= req_fields->headersused+1){
+    req_fields->headerslen = req_fields->headerslen*2;
+    req_fields->headers = (HeaderFields *) realloc(req_fields->headers,
+    req_fields->headerslen * sizeof(HeaderFields));
+
+    if(!req_fields->headers)
+      return -1;
+
+  }
+
+  hf = req_fields->headers + req_fields->headersused;
+  req_fields->headersused = req_fields->headersused + 1;
+
+  //Aloca espaco e copia a chave
+  hf->key = (char *)malloc(strlen(key)+1);
+  memcpy(hf->key, key, strlen(key));
+  //Termina com \0
+  hf->key[strlen(key)] = '\0';
+
+  if(value){
+    hf->value = (char *)malloc(strlen(value)+1);
+    memcpy(hf->value, value, strlen(value));
+    hf->value[strlen(value)] = '\0';
+
+    hf->keylen = strlen(key)+1;
+    hf->valuelen = strlen(value)+1;
+  }
+
+  return 0;
+}
+
+//Get pros headers de requests e responses
 HeaderFields* HeaderFields_get(RequestFields *req_fields, const char *key){
   size_t i = 0;
   HeaderFields *tmp;
@@ -84,6 +127,25 @@ HeaderFields* HeaderFields_get(RequestFields *req_fields, const char *key){
   return NULL;
 }
 
+HeaderFields* HeaderFields_get(ResponseFields *req_fields, const char *key){
+  size_t i = 0;
+  HeaderFields *tmp;
+
+  while(req_fields->headersused > i){
+    tmp = req_fields->headers + i;
+
+    if(tmp->key && key && strcmp(tmp->key, key) == 0){
+      return tmp;
+    }
+
+    i++;
+  }
+
+  // Se nao encontrar nada
+  return NULL;
+}
+
+//Pop pros headers de requests e responses
 int HeaderFields_pop(RequestFields *req_fields, const char *key){
   HeaderFields *tmp;
   tmp = HeaderFields_get(req_fields, key);
@@ -99,9 +161,30 @@ int HeaderFields_pop(RequestFields *req_fields, const char *key){
   return 0;
 }
 
-/* Métodos privados para as linhas de cabeçalho */
+int HeaderFields_pop(ResponseFields *req_fields, const char *key){
+  HeaderFields *tmp;
+  tmp = HeaderFields_get(req_fields, key);
 
+  if(tmp == NULL){
+    return -1;
+  }
+
+  free(tmp->key);
+  free(tmp->value);
+  tmp->key = NULL;
+
+  return 0;
+}
+
+/* Métodos privados para as linhas de cabeçalho */
+//Create pra requisições e respostas
 void HeaderFields_create(RequestFields *req_fields){
+  req_fields->headers = (HeaderFields *)malloc(sizeof(HeaderFields)*DEFAULT_NHDRS);
+  req_fields->headerslen = DEFAULT_NHDRS;
+  req_fields->headersused = 0;
+}
+
+void HeaderFields_create(ResponseFields *req_fields){
   req_fields->headers = (HeaderFields *)malloc(sizeof(HeaderFields)*DEFAULT_NHDRS);
   req_fields->headerslen = DEFAULT_NHDRS;
   req_fields->headersused = 0;
@@ -115,6 +198,7 @@ size_t HeaderFields_lineLen(HeaderFields *hf){
   return 0;
 }
 
+//Tamanho do cabeçalho inteiro para requisições e respostas
 size_t HeaderFields_headersLen(RequestFields *req_fields){
   if(!req_fields || !req_fields->buf){
     return 0;
@@ -132,7 +216,52 @@ size_t HeaderFields_headersLen(RequestFields *req_fields){
   return len;
 }
 
+size_t HeaderFields_headersLen(ResponseFields *req_fields){
+  if(!req_fields || !req_fields->buf){
+    return 0;
+  }
+
+  size_t i = 0;
+  int len = 0;
+
+  while(req_fields->headersused > i){
+    len += HeaderFields_lineLen(req_fields->headers + i);
+    i++;
+  }
+
+  len += 2;
+  return len;
+}
+
+//Print dos cabeçalhos para requisições e respostas
 int HeaderFields_printHeaders(RequestFields *req_fields, char *buf, size_t len){
+  char *curr = buf;
+  HeaderFields *current_header;
+  size_t i = 0;
+
+  if(len < HeaderFields_headersLen(req_fields)){
+    debug("Buffer to print headers too short\n");
+    return -1;
+  }
+
+  while(req_fields->headersused > i){
+    current_header = req_fields->headers + i;
+    if(current_header->key){
+      memcpy(curr, current_header->key, strlen(current_header->key));
+      memcpy(curr+strlen(current_header->key), ": ", 2);
+      memcpy(curr+strlen(current_header->key)+2, current_header->value,
+    strlen(current_header->value));
+      memcpy(curr+strlen(current_header->key)+2+strlen(current_header->value), "\r\n", 2);
+      //Aponta pro fim da string copiada
+      curr += strlen(current_header->key)+strlen(current_header->value)+4;
+    } //if
+    i++;
+  } //while
+  memcpy(curr, "\r\n", 2);
+  return 0;
+}
+
+int HeaderFields_printHeaders(ResponseFields *req_fields, char *buf, size_t len){
   char *curr = buf;
   HeaderFields *current_header;
   size_t i = 0;
@@ -184,8 +313,54 @@ void HeaderFields_destroy(RequestFields *req_fields){
   req_fields->headerslen = 0;
 }
 
+void HeaderFields_destroy(ResponseFields *req_fields){
+  size_t i = 0;
+
+  //Destroi lista 1 por 1
+  while(req_fields->headersused > i){
+    HeaderFields_destroySingleLine(req_fields->headers+i);
+    i++;
+  }
+
+  req_fields->headersused = 0;
+  free(req_fields->headers);
+  req_fields->headerslen = 0;
+}
+
 // Faz o parse de uma linha por vez
 int HeaderFields_parse(RequestFields *req_fields, char *line){
+  char *key;
+  char *value;
+  char *aux1;
+  char *aux2;
+
+  //Retorna posicao do primeiro char de interesse nessa string
+  aux1 = strchr(line, ':');
+  //Se ptr retornado eh null, n tem dois pontos;
+  if(aux1 == NULL){
+    debug("Couldn't find colon\n");
+    return -1;
+  }
+
+  //Chave tera o tamanho do inicio ate os dois pontos
+  key = (char *)malloc((aux1-line+1)*sizeof(char));
+  memcpy(key, line, aux1-line);
+  key[aux1-line] = '\0';
+
+  //Pula espaco e vai pro simbolo
+  aux1 += 2;
+  aux2 = strstr(aux1, "\r\n");
+  value = (char*)malloc((aux2-aux1+1)*sizeof(char));
+  memcpy(value, aux1, (aux2-aux1));
+  value[aux2-aux1] = '\0';
+
+  HeaderFields_set(req_fields, key, value);
+  free(key);
+  free(value);
+  return 0;
+}
+
+int HeaderFields_parse(ResponseFields *req_fields, char *line){
   char *key;
   char *value;
   char *aux1;
@@ -234,6 +409,27 @@ void RequestFields_destroy(RequestFields *pr)
     free(pr);
 }
 
+void ResponseFields_destroy(ResponseFields *pr)
+{
+    if(pr->buf != NULL){
+	     free(pr->buf);
+    }
+    if (pr->version != NULL) {
+	     free(pr->version);
+    }
+    if (pr->statusCode != NULL) {
+	     free(pr->statusCode);
+    }
+    if (pr->phrase != NULL) {
+	     free(pr->phrase);
+    }
+    if(pr->headerslen > 0){
+	     HeaderFields_destroy(pr);
+    }
+
+    free(pr);
+}
+
 // Criacao de uma estrutura de requisicao vazia
 RequestFields* RequestFields_create(){
   RequestFields *req_fields;
@@ -255,7 +451,26 @@ RequestFields* RequestFields_create(){
   return req_fields;
 }
 
-// Criacao da string de volta a partir da estrutura parseada
+ResponseFields* ResponseFields_create(){
+  ResponseFields *req_fields;
+
+  req_fields = (ResponseFields*)malloc(sizeof(ResponseFields));
+
+  if(req_fields != NULL){
+    HeaderFields_create(req_fields);
+    req_fields->buf = NULL;
+    req_fields->buflen = 0;
+    req_fields->version = NULL;
+    req_fields->statusCode = NULL;
+    req_fields->phrase = NULL;
+    req_fields->body = NULL;
+    req_fields->bodylen = 0;
+  }
+
+  return req_fields;
+}
+
+// Criacao da string de volta a partir da estrutura parseada (para requisições e respostas)
 int RequestFields_unparse(RequestFields *req_fields, char *buf, size_t buflen){
   if(!req_fields || !req_fields->buf){
     return -1;
@@ -263,6 +478,21 @@ int RequestFields_unparse(RequestFields *req_fields, char *buf, size_t buflen){
 
   size_t tmp;
   if(RequestFields_printRequestLine(req_fields, buf, buflen, &tmp) < 0){
+    return -1;
+  }
+  if(HeaderFields_printHeaders(req_fields, buf, buflen-tmp)< 0){
+    return -1;
+  }
+  return 0;
+}
+
+int ResponseFields_unparse(ResponseFields *req_fields, char *buf, size_t buflen){
+  if(!req_fields || !req_fields->buf){
+    return -1;
+  }
+
+  size_t tmp;
+  if(ResponseFields_printStateLine(req_fields, buf, buflen, &tmp) < 0){
     return -1;
   }
   if(HeaderFields_printHeaders(req_fields, buf, buflen-tmp)< 0){
@@ -284,12 +514,31 @@ int RequestFields_unparse_headers(RequestFields *req_fields, char *buf, size_t b
   return 0;
 }
 
-// Cálculo do tamanho de uma requisição
+int ResponseFields_unparse_headers(ResponseFields *req_fields, char *buf, size_t buflen){
+  if(!req_fields || !req_fields->buf){
+    return -1;
+  }
+
+  if(HeaderFields_printHeaders(req_fields, buf, buflen)< 0){
+    return -1;
+  }
+
+  return 0;
+}
+
+// Cálculo do tamanho de uma requisição e de uma resposta
 size_t RequestFields_totalLen(RequestFields *req_fields){
   if(!req_fields || !req_fields->buf){
     return 0;
   }
   return RequestFields_requestLineLen(req_fields)+HeaderFields_headersLen(req_fields);
+}
+
+size_t ResponseFields_totalLen(ResponseFields *req_fields){
+  if(!req_fields || !req_fields->buf){
+    return 0;
+  }
+  return ResponseFields_stateLineLen(req_fields)+HeaderFields_headersLen(req_fields);
 }
 
 /*  Parse do buffer de requisição
@@ -487,7 +736,102 @@ int RequestFields_parse(RequestFields *parse, const char *buf, int buflen){
 
   free(tmp_buf);
   return erro;
-} // funcao parser]
+} // funcao parser
+
+int ResponseFields_parse(ResponseFields *parse, const char *buf, int buflen){
+  char *saveptr;
+  char *index;
+  char *currentHeader;
+
+  if (parse->buf != NULL) {
+	  debug("parse object already assigned to a response\n");
+	  return -1;
+  }
+
+  if (buflen < MIN_REQ_LEN || buflen > MAX_REQ_LEN) {
+	  debug("Invalid size for buflen %d\n", buflen);
+	  return -1;
+  }
+
+  char *tmp_buf = (char *)malloc(buflen + 1);
+  memcpy(tmp_buf, buf, buflen);
+  tmp_buf[buflen] = '\0';
+
+  index = strstr(tmp_buf, "\r\n\r\n");
+
+  if(index == NULL){
+    debug("Invalid response, no end of header\n");
+    free(tmp_buf);
+    return -1;
+  }
+
+  //Copia a linha de estado para parse->buf
+  index = strstr(tmp_buf, "\r\n");
+  if(parse->buf == NULL){
+    parse->buf = (char *) malloc((index-tmp_buf)+1);
+    parse->buflen = (index - tmp_buf) + 1;
+  }
+  memcpy(parse->buf, tmp_buf, index - tmp_buf);
+  parse->buf[index-tmp_buf] = '\0';
+
+  //Parse da linha de estado
+  parse->version = strtok_r(parse->buf, " ", &saveptr);
+  if(parse->version == NULL){
+    debug("Invalid response line, no space\n");
+    free(tmp_buf);
+    free(parse->buf);
+    parse->buf = NULL;
+    return -1;
+  }
+
+  parse->statusCode = strtok_r(parse->buf, " ", &saveptr);
+  if(parse->statusCode == NULL){
+    debug("Invalid response line, status code missing\n");
+    free(tmp_buf);
+    free(parse->buf);
+    parse->buf = NULL;
+    return -1;
+  }
+
+  parse->phrase = strtok_r(parse->buf, "\r", &saveptr);
+
+  // Parse dos cabeçalhos
+  int erro = 0;
+  // Pula a request line
+  currentHeader = strstr(tmp_buf, "\r\n")+2;
+
+  //Enquanto n chegar ao fim dos cabecalhos
+  while(currentHeader[0] != '\0' && !(currentHeader[0] == '\r' && currentHeader[1] =='\n')) {
+    // Se obtiver sucesso, retorna 0
+    if(HeaderFields_parse(parse, currentHeader)){
+      erro = -1;
+      return -1;
+    }
+
+    currentHeader = (strstr(currentHeader, "\r\n"));
+    if(currentHeader == NULL || strlen(currentHeader) < 2){
+      break;
+    }
+
+    currentHeader += 2;
+  } //while
+
+  HeaderFields *body = HeaderFields_get(parse, "Content-Length");
+  parse->bodylen = std::stol(body->value, NULL, 10);
+  //Copiar o corpo da resposta
+  index = strstr(tmp_buf, "\r\n\r\n") + 4;
+
+  if(parse->bodylen > 0){
+    parse->body = (char *)malloc((parse->bodylen*sizeof(char))+1);
+    memcpy(parse->body, index, (parse->bodylen*sizeof(char))+1);
+  }
+  else{
+    parse->body = NULL;
+  }
+
+  free(tmp_buf);
+  return erro;
+}
 
 
 /* Metodos Privado do RequestFields */
@@ -504,6 +848,16 @@ size_t RequestFields_requestLineLen(RequestFields *req_fields){
   }
 
   len += strlen(req_fields->path);
+  return len;
+}
+
+size_t ResponseFields_stateLineLen(ResponseFields *req_fields){
+  if(!req_fields || !req_fields->buf){
+    return 0;
+  }
+
+  size_t len = strlen(req_fields->version) + 1 + strlen(req_fields->statusCode) + 1 + strlen(req_fields->phrase) + 2;
+
   return len;
 }
 
@@ -541,6 +895,35 @@ int RequestFields_printRequestLine(RequestFields *pr,char * buf, size_t buflen, 
 
     memcpy(current, pr->version, strlen(pr->version));
     current += strlen(pr->version);
+    memcpy(current, "\r\n", 2);
+    current +=2;
+    *tmp = current-buf;
+    return 0;
+}
+
+int ResponseFields_printStateLine(ResponseFields *pr,char * buf, size_t buflen, size_t *tmp)
+{
+    char * current = buf;
+
+    if(buflen <  ResponseFields_stateLineLen(pr)){
+	     debug("not enough memory for first line\n");
+	     return -1;
+    }
+    memcpy(current, pr->version, strlen(pr->version));
+    current += strlen(pr->version);
+    current[0]  = ' ';
+    current += 1;
+
+    memcpy(current, pr->statusCode, strlen(pr->statusCode));
+    current += strlen(pr->statusCode);
+    current[0]  = ' ';
+    current += 1;
+
+    memcpy(current, pr->phrase, strlen(pr->phrase));
+    current += strlen(pr->phrase);
+    current[0]  = ' ';
+    current += 1;
+
     memcpy(current, "\r\n", 2);
     current +=2;
     *tmp = current-buf;

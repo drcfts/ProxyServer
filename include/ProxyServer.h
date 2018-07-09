@@ -30,6 +30,7 @@ private:
   void CreateServerSocket(int port);
   //Transforma objeto pra string
   char* RequestToString(RequestFields *req);
+  char* ResponseToString(ResponseFields *resp);
 
 
 };
