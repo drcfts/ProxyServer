@@ -5,7 +5,7 @@
 #include "../include/ProxyServer.h"
 #include "../include/ProxyParser.h"
 #include "../include/spider.h"
-#include "../include/spider_tree.h"
+#include "../include/spider_web.h"
 
 using namespace std;
 
@@ -41,13 +41,6 @@ int main(int argc, char const *argv[]) {
   struct sockaddr_in clientAddr;
   socklen_t clientAddrSize = sizeof(clientAddr);
 
-
-  //TESTE SPIDER_TREE
-  //add_url((char *) "www.cic.unb.br");
-  //add_dir((char *) "www.cic.unb.br", (char *) "/o-cic/pessoas/");
-  //add_dir((char *) "www.cic.unb.br", (char *) "/pesquisa/laboratorios/");
-  //FIM DO TESTE DO SPIDER_TREE
-
   //Loop para executar
   while(1){
 
@@ -59,7 +52,6 @@ int main(int argc, char const *argv[]) {
     //Se for filho, cria uma conexao
     if(PID == 0){
       httpproxy.ProxyRequest(client_fd, clientAddr, clientAddrSize);
-      //spider_get_response(client_fd, clientAddr, clientAddrSize);
     }
     //Se for pai, apenas fecha o descriptor no processo pai
     else{

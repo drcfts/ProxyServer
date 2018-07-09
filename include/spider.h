@@ -7,6 +7,8 @@
 
 #define SPIDER_MSG_SIZE 500
 
-void spider_get_response(int cliente_fd, struct sockaddr_in cliente_addr, socklen_t cliente_addr_size);
+#define DEBUG_SPIDER 1
+
+char *spider_get_response(char *request);
 
 #endif

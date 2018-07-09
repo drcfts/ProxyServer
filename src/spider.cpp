@@ -5,6 +5,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <unistd.h>
 #include <netinet/in.h>
 #include <netdb.h>
 
@@ -30,18 +31,13 @@ char *spider_get_full_msg(int request_fd, size_t *msg_size) {
 
         while ( (bytes = recv(request_fd, msg + end_msg, SPIDER_MSG_SIZE, 0)) > 0) {
 
-                //printf("\t%d %d %d\n", *msg_size, end_msg, bytes);
-                //printf("\tBytes: %d\n%s\n", bytes, msg);
                 *msg_size += bytes;
                 end_msg += bytes;
 
-                //printf("\tNew size: %d\n", *msg_size);
                 msg = (char *) realloc(msg, *msg_size * sizeof(char));
-                //printf("\tRealloced\n%s\n", msg);
 
                 msg[end_msg] = '\0';
                 if (msg == NULL) {
-                        //printf("XXXXXXXXXXXXX\n");
                         *msg_size = 0;
                         return NULL;
                 }
@@ -87,7 +83,11 @@ char *spider_separate_url_port(char *url, size_t *url_size, size_t *port_size) {
                 port[2] = '\0';
         }
 
+#if DEBUG
+#if DEBUG_SPIDER
         printf("\tUrl: %s\n\tPort Number: %s\n", url, port);
+#endif
+#endif
 
         *url_size = strlen(url);
         *port_size = strlen(port);
@@ -107,21 +107,7 @@ char *spider_separate_url_path(char *url, size_t *url_size, size_t *path_size) {
         return path;
 }
 
-map<pair<string, string>, int> hostname_ip;
-
 int spider_dns_get_ip(char *url, char *port) {
-
-        string str_url(url);
-        string str_port(port);
-
-        pair<string, string> key = make_pair(str_url, str_port);
-
-        auto it = hostname_ip.find(key);
-
-        if(it != hostname_ip.end()) {
-                printf("\tSocket (saved): %d\n", it->second);
-                return it->second;
-        }
 
         struct addrinfo hints;
         struct addrinfo *resp;
@@ -142,7 +128,11 @@ int spider_dns_get_ip(char *url, char *port) {
                 return -1;
         }
 
+#if DEBUG
+#if DEBUG_SPIDER
         printf("\t Host address: %s\n", resp->ai_addr->sa_data);
+#endif
+#endif
 
         int sck_fd = socket(resp->ai_family, resp->ai_socktype, resp->ai_protocol);
 
@@ -156,9 +146,11 @@ int spider_dns_get_ip(char *url, char *port) {
                 perror("Error in connection establishment");
         }
 
+#if DEBUG
+#if DEBUG_SPIDER
         printf("\tSocket: %d\n", sck_fd);
-
-        hostname_ip.insert(make_pair(key, sck_fd));
+#endif
+#endif
 
         return sck_fd;
         
@@ -177,16 +169,16 @@ char *spider_replace_url_path(char *request, size_t request_size, char *path, si
         return request2;
 }
 
-void spider_get_response(int request_fd, struct sockaddr_in cliente_addr, socklen_t cliente_addr_size) {
+char *spider_get_response(char *request) {
         
-        char *request;
         size_t request_size;
 
+#if DEBUG
+#if DEBUG_SPIDER
         printf("\tBegin Spider\n");
-
-        request = spider_get_full_msg(request_fd, &request_size);
-
         printf("\tSpider Request:\n%s\n\tSpider Request End\n", request);
+#endif
+#endif
 
         char *url;
         size_t url_size;
@@ -205,19 +197,35 @@ void spider_get_response(int request_fd, struct sockaddr_in cliente_addr, sockle
 
         int response_fd = spider_dns_get_ip(url, str_port);
 
-        printf("\tSocket Received: %d\n", response_fd);
-
+/*
         char *request2 = spider_replace_url_path(request, request_size, path, path_size);
         size_t request2_size = strlen(request2);
 
+#if DEBUG
+#if DEBUG_SPIDER
         printf("\tSpider Request-send:\n%s\n\tSpider Request-send End\n", request2);
+#endif
+#endif
         send(response_fd, request2, request2_size, 0);
+*/
+        send(response_fd, request, request_size, 0);
 
         char *response;
         size_t response_size;
 
         response = spider_get_full_msg(response_fd, &response_size);
 
+#if DEBUG
+#if DEBUG_SPIDER
         printf("\tSpider Response:\n%s\n\tSpider Response End\n", response);
-        send(request_fd, response, response_size, 0);
+#endif
+#endif
+        //send(request_fd, response, response_size, 0);
+        
+
+        //CLOSE CONNECTIONS
+        
+        close(response_fd);
+
+        return response;
 }
