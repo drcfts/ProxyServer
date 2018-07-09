@@ -61,6 +61,7 @@ char *concat_path(char *path_base, char *path_relat) {
 
         char barra;
 
+        printf("\t Buff: %s\n", buff);
         while (sscanf(buff, "%[^/]%c%s", temp, &barra, buff) == 1) {
 
                 if (strcmp(temp, "..") == 0) {
