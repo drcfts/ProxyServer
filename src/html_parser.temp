@@ -15,7 +15,7 @@
 	<link href="/templates/unb/css/menu.css" rel="stylesheet" type="text/css" />
 	<link href="/plugins/system/vembed/vembed.css" rel="stylesheet" type="text/css" />
 	<link href="/media/jfontsize/css/jfontsize.css" rel="stylesheet" type="text/css" />
-	<script type="application/json" class="joomla-script-options new">{"csrf.token":"2112d694390e85207a242f4de18a3440","system.paths":{"root":"","base":""}}</script>
+	<script type="application/json" class="joomla-script-options new">{"csrf.token":"743b7294b372752411648b97a581e296","system.paths":{"root":"","base":""}}</script>
 	<script src="/media/jui/js/jquery.min.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
 	<script src="/media/jui/js/jquery-noconflict.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
 	<script src="/media/jui/js/jquery-migrate.min.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
@@ -690,7 +690,7 @@ mprop="name">
   <input type="radio" name="tabs" class="tabs" id="clipping" value="clipping">
   <label for="clipping" style="margin-left:3px">UnB NA MÍDIA</label>
   <div>
-     <div class="chapeu-data">09/07/2018 19:31 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646428">"Judiciário está cuspindo na Constituição", afirma Marcelo Neves</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646511">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646516">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646538">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646548">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5>          
+     <div class="chapeu-data">09/07/2018 19:48 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646781">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5><div class="chapeu-data">09/07/2018 19:31 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646428">"Judiciário está cuspindo na Constituição", afirma Marcelo Neves</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646511">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646516">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5><div class="chapeu-data">09/07/2018 19:21 </div><h5 class="cliping_item"><a target="_blank" href="http://linearc.com.br/unb?n=50646538">Desmatamento pode minar chance do País de cumprir meta contra aquecim ...</a></h5>          
 
     
   </div>

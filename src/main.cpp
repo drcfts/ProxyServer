@@ -12,10 +12,10 @@ using namespace std;
 
 int main () {
 
-        char url[5000];
+        char url[5000] = "www.unb.br";
         char *response;
 
-        scanf(" %s", url);
+        //scanf(" %s", url);
 
         response = spider_get_data(url);
 

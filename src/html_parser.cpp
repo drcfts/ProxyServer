@@ -73,7 +73,8 @@ char *concat_path(char *path_base, char *path_relat) {
                 //printf("\tTemp: %s\tBarra: %c\tBuff: %s\tRet: %d\n", temp, barra, buff, ret);
 
                 if (strcmp(temp, "..") == 0) {
-                        st.pop_back();
+                        if (!st.empty())
+                                st.pop_back();
                 } else {
                         string t(temp);
                         st.push_back(t);
@@ -159,20 +160,24 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
         bool close = false, is_script = false;
 
         char symbol;
-        char tag[25], full_attr[10000];
+        char tag[25];
 
         int ret_f;
 
         fscanf(fp, " %*[^<]");
         while((ret_f = fscanf(fp, "%c %c", &symbol, &tag[0])) == 2) {
 
+                printf("\tBEGIN TAG: %c%c\n", symbol, tag[0]);
+
+                tag[1] = '\0';
+
                 if (symbol == '<') {
                         if (tag[0] == '/') {
                                 close = true;
-                                fscanf(fp, " %[^> \t\n\r]", tag); //name of tag
+                                fscanf(fp, "%[^> \t\n\r]", tag); //name of tag
                         } else {
                                 close = false;
-                                fscanf(fp, " %[^> \t\n\r]", tag + 1); // tag[0] + tag + 1 = name of tag
+                                fscanf(fp, "%[^> \t\n\r]", tag + 1); // tag[0] + tag + 1 = name of tag
                         }
 
                         printf("\tTAG: %s%s\n", close ? "/" : "", tag);
@@ -225,13 +230,13 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                         char temp = '\0';
                         char attr[25], value[10000];
 
-                        while (fscanf(fp, " %[^=> \t\n\r]%c", attr, &temp) == 2) {
+                        while (fscanf(fp, " %[^=>< \t\n\r]%c", attr, &temp) == 2) {
 
                                 printf("\t Attr: %s\tTemp: %c\n", attr, temp);
 
                                 if (temp == '=') {
                                         char delim;
-                                        fscanf(fp, "%c", &delim);
+                                        fscanf(fp, " %c", &delim);
 
                                         printf("\tDelim: %c\n", delim);
 
@@ -294,9 +299,6 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                 }
         }
         printf("\tEND %d\tSymbol: %c\tTag: %c\n", ret_f, symbol, tag[0]);
-
-        fscanf(fp, " %s", data);
-        printf("%s\n", data);
 
         fclose(fp);
 
