@@ -207,8 +207,9 @@ void save_file(char *data, const char *url, const char *path) {
                         }
 
                         if (ret_chd != 0) {
+                                perror("Error acessing directory\n");
                                 printf("Error acessing directory %s, can't save file\n", buff);
-                                return;
+                                break;
                         }
 
                         string dir(buff);
