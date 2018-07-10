@@ -176,18 +176,32 @@ int spider_dns_get_ip(char *url, char *port) {
 
         int sck_fd = socket(resp->ai_family, resp->ai_socktype, resp->ai_protocol);
 
+        if (sck_fd == -1) {
+                perror("Error in socket creation");
+        }
+
         struct timeval timeout;
 
         timeout.tv_sec = 8;
         timeout.tv_usec = 0;
 
-        setsockopt(sck_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout) );
+        int dont_reuse = 0;
 
-        if (sck_fd == -1) {
-                perror("Error in socket creation");
+        int ret;
+
+        ret = setsockopt(sck_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout) );
+
+        if (ret < 0) {
+                perror("Error in timeout change");
         }
 
-        int ret = connect(sck_fd, resp->ai_addr, resp->ai_addrlen);
+        ret = setsockopt(sck_fd, SOL_SOCKET, SO_REUSEADDR, &dont_reuse, sizeof(int) );
+
+        if (ret < 0) {
+                perror("Error in reuseaddr change");
+        }
+
+        ret = connect(sck_fd, resp->ai_addr, resp->ai_addrlen);
 
         if (ret == -1) {
                 perror("Error in connection establishment");
