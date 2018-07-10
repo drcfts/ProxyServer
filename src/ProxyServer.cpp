@@ -10,7 +10,6 @@
 #include <netdb.h> // getaddrinfo
 #include <mutex>
 
-std::mutex m_inspect;
 
 using namespace std;
 
@@ -115,9 +114,7 @@ void ProxyServer::ProxyRequest(int client_fd, int inspection){
     char* req_string = RequestToString(req);
 
     if(inspection){
-      m_inspect.lock();
       InterceptRequest(req);
-      m_inspect.unlock();
     }
 
     //cout << "req_string: " << req_string << endl;
@@ -262,8 +259,11 @@ void ProxyServer::InterceptRequest(RequestFields *req){
   do {
   //Zera as strings
   memset(edit_answer,0,strlen(edit_answer));
-  cout << "Do you want to edit the request? (Y/N)\n";
+  printf("Do you want to edit the request? (Y/N)\n");
+  flockfile(stdin);
+  flockfile(stdout);
   scanf ("%[^\n]%*c", edit_answer);
+  fseek(stdin,0,SEEK_END);
   char *index = strstr(edit_answer, "\n");
   if(index!=NULL){
     edit_answer[index-edit_answer] = '\0';
@@ -274,16 +274,17 @@ void ProxyServer::InterceptRequest(RequestFields *req){
       char value_answer[100];
       memset(field_answer,0,strlen(field_answer));
       memset(value_answer,0,strlen(value_answer));
-
-      cout << "What field do you want to edit?" << endl;
+      printf("What field do you want to edit\n");
       scanf ("%[^\n]%*c", field_answer);
+      fseek(stdin,0,SEEK_END);
       index = strstr(field_answer, "\n");
       if(index!=NULL){
         field_answer[index-field_answer] = '\0';
       }
       if((auxHeaders = HeaderFields_get(req, field_answer))!=NULL){
-        cout << "What value do you want?" << endl;
+        printf("What value do you want?\n");
         scanf ("%[^\n]%*c", value_answer);
+        fseek(stdin,0,SEEK_END);
         index = strstr(value_answer, "\n");
         if(index!=NULL){
           value_answer[index-value_answer] = '\0';
@@ -291,17 +292,19 @@ void ProxyServer::InterceptRequest(RequestFields *req){
         HeaderFields_set(req, field_answer, value_answer);
       }
       else{
-        cout << "Invalid field |" << field_answer << "|\n";
+        printf("Invalid field |%s|\n", field_answer);
       } //else
 
     } //if((strstr(edit_answer, "Y") != NULL) || (strstr(edit_answer, "y") != NULL))
   } while((strstr(edit_answer, "Y") != NULL) || (strstr(edit_answer, "y") != NULL));
   req_string = RequestToString(req);
-  cout << "\nNew Request_Message: \n" << req_string << endl;
-  cout << "\n****** End of inspection *****\n" << endl;
+  printf("\nNew Request_Message: \n%s\n", req_string);
+  printf("\n****** End of inspection *****\n\n");
 
   memset(edit_answer,0,strlen(edit_answer));
 
+  funlockfile(stdout);
+  funlockfile(stdin);
   return;
 
 } //funcao
