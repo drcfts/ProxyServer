@@ -13,7 +13,6 @@ std::mutex m;
 
 using namespace std;
 
-
 int main(int argc, char const *argv[]) {
   int num_port = 0;
 
@@ -52,6 +51,9 @@ int main(int argc, char const *argv[]) {
 
     int client_fd = accept(proxy_fd, (struct sockaddr *)&clientAddr, &clientAddrSize);
 
+    //dump(url);
+    //spider(url);
+
     //Fork duplica o processo: para o pai, retorna o id do filho; para o filho, retorna 0
     fflush(stdin);
     fflush(stdout);
@@ -71,3 +73,7 @@ int main(int argc, char const *argv[]) {
 
   return 0;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Descomenta a main
