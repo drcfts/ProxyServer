@@ -1,5 +1,7 @@
 #include "../include/ProxyServer.h"
 #include "../include/ProxyParser.h"
+#include "../include/spider.h"
+#include "../include/spider_web.h"
 
 #include <iostream>
 
@@ -101,6 +103,7 @@ void ProxyServer::ProxyRequest(int client_fd, int inspection){
   RequestFields *req;
   req = RequestFields_create();
 
+
   //Faz o parser da msg recebida
   if(RequestFields_parse(req, request_message, strlen(request_message))<0){
     //cout << " Request message format not supported" << endl;
@@ -108,31 +111,53 @@ void ProxyServer::ProxyRequest(int client_fd, int inspection){
     close(client_fd);
   }
   else{
-    if(req->port == NULL){
-      req->port = (char *) "80";
+    InterceptRequest(req);
+    printf("*****************************\n");
+    printf("Digite a opcao:\n1)- Spider\n2)- Dump/Cliente Recursivo\n3)- Continuar inspecao\n");
+    printf("*****************************\n");
+    int opcao_usuario;
+    scanf("%d", &opcao_usuario);
+    switch(opcao_usuario){
+      case 1:
+        printf("\nSpider escolhido...\n");
+        spider(req->host);
+      break;
+      case 2:
+        printf("\nDump escolhido...\n");
+        dump(req->host);
+      break;
+      default:
+        int PID = fork();
+
+        if(!PID){
+          if(req->port == NULL){
+            req->port = (char *) "80";
+          }
+          char* req_string = RequestToString(req);
+
+
+
+          //cout << "req_string: " << req_string << endl;
+          //cout << "client host n port: " << req->host << req->port << endl;
+          // Conexao ao socket remote_socket
+          int remote_socket = CreateRemoteSocket(req->host, req->port);
+
+          //cout << "SendRequestRemote: " << remote_socket << " total received bits" << total_received_bits << endl;
+
+          SendRequestRemote(req_string, remote_socket, total_received_bits);
+
+          //cout << "ProxyBackClient" << endl;
+          //Manda de volta pro cliente
+          ProxyBackClient(client_fd, remote_socket);
+          //Dá free na estrutura criada
+          RequestFields_destroy(req);
+          close(client_fd);
+          close(remote_socket);
+          _exit(0);
+        }
+      break;
     }
-    char* req_string = RequestToString(req);
 
-    if(inspection){
-      InterceptRequest(req);
-    }
-
-    //cout << "req_string: " << req_string << endl;
-    //cout << "client host n port: " << req->host << req->port << endl;
-    // Conexao ao socket remote_socket
-    int remote_socket = CreateRemoteSocket(req->host, req->port);
-
-    //cout << "SendRequestRemote: " << remote_socket << " total received bits" << total_received_bits << endl;
-
-    SendRequestRemote(req_string, remote_socket, total_received_bits);
-
-    //cout << "ProxyBackClient" << endl;
-    //Manda de volta pro cliente
-    ProxyBackClient(client_fd, remote_socket);
-    //Dá free na estrutura criada
-    RequestFields_destroy(req);
-    close(client_fd);
-    close(remote_socket);
   } //else
 
 } //funcao

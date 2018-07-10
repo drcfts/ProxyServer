@@ -9,7 +9,6 @@
 #include "../include/html_parser.h"
 #include <mutex>
 
-std::mutex m;
 
 using namespace std;
 
@@ -55,20 +54,18 @@ int main(int argc, char const *argv[]) {
     //spider(url);
 
     //Fork duplica o processo: para o pai, retorna o id do filho; para o filho, retorna 0
-    fflush(stdin);
-    fflush(stdout);
-    int PID = fork();
+    //int PID = fork();
 
     //Se for filho, cria uma conexao
-    if(PID == 0){
-      m.lock();
+    //if(PID == 0){
+    if(client_fd >= 0){
       httpproxy.ProxyRequest(client_fd, 1);
-      m.unlock();
     }
+  //  }
     //Se for pai, apenas fecha o descriptor no processo pai
-    else{
+    //else{
       close(client_fd);
-    } //else
+    //} //else
   } //while(true)
 
   return 0;
