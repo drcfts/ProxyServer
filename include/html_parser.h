@@ -6,6 +6,8 @@
 
 using namespace std;
 
+vector<pair<string, string> > get_ref_url(char *url, int opt);
+
 vector<pair<string, string> > get_ref_url(char *data, char *url, char *path);
 
 #endif

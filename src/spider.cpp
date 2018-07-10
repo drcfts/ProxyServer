@@ -48,7 +48,7 @@ char *spider_get_full_msg(int request_fd, size_t *msg_size) {
                 }
 
                 if (bytes < SPIDER_MSG_SIZE) {
-                        printf("BYTES: %d\t TOTAL: %lu\n", bytes, end_msg);
+                        //printf("BYTES: %d\t TOTAL: %lu\n", bytes, end_msg);
 //                        break;
                 }
         }
@@ -68,6 +68,8 @@ char *spider_get_url (char *msg, size_t *url_size) {
                 sscanf(url, "http://%s", url);
         } else if (strncmp(url, "https://", 8) == 0) { //If the 8 first characters are https://
                 sscanf(url, "https://%s", url);
+        } else if (strncmp(url, "//", 2) == 0) {
+                sscanf(url, "//%s", url);
         }
 
 #if DEBUG_SPIDER
@@ -105,6 +107,15 @@ char *spider_separate_url_port(char *url, size_t *url_size, size_t *port_size) {
 }
 
 char *spider_separate_url_path(char *url, size_t *url_size, size_t *path_size) {
+
+        if (strncmp(url, "http://", 7) == 0) { //If the 7 first characters are http://
+                sscanf(url, "http://%s", url);
+        } else if (strncmp(url, "https://", 8) == 0) { //If the 8 first characters are https://
+                sscanf(url, "https://%s", url);
+        } else if (strncmp(url, "//", 2) == 0) {
+                sscanf(url, "//%s", url);
+        }
+
         char *path;
 
         sscanf(url, "%*[^/]%ms", &path);
@@ -234,6 +245,7 @@ char *spider_get_response(char *request) {
         char *response;
         size_t response_size;
 
+        printf("Downloading %s%s...\n", url, path);
         response = spider_get_full_msg(response_fd, &response_size);
 
 #if DEBUG_SPIDER

@@ -6,7 +6,10 @@
 #include <stack>
 #include <deque>
 #include <iostream>
- 
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <unistd.h>
+
 #include "../include/html_parser.h"
 #include "../include/spider.h"
 
@@ -68,7 +71,7 @@ char *concat_path(char *path_base, char *path_relat) {
         char barra;
         int ret;
 
-        printf("\tBuff: %s\n", buff);
+        //printf("\tBuff: %s\n", buff);
         while ((ret = sscanf(buff, "%[^/]%c", temp, &barra)) >= 1) {
                 //printf("\tTemp: %s\tBarra: %c\tBuff: %s\tRet: %d\n", temp, barra, buff, ret);
 
@@ -83,7 +86,7 @@ char *concat_path(char *path_base, char *path_relat) {
                 int ha_buffer = sscanf(buff, "%*[^/]%*c%s", buff);
 
                 if (ret == 2 && ha_buffer < 1 && barra == '/') {
-                        printf("\t/////\n");
+                        //printf("\t/////\n");
                         st.back().append("/");
                 }
                 if (ret != 2 || ha_buffer < 1)
@@ -95,7 +98,7 @@ char *concat_path(char *path_base, char *path_relat) {
         resp[1] = '\0';
 
         while (!st.empty()) {
-                printf("\t Piece of URL: %s\n", st.front().c_str());
+                //printf("\t Piece of URL: %s\n", st.front().c_str());
                 strcat(resp, st.front().c_str());
                 st.pop_front();
                 if (!st.empty())
@@ -144,6 +147,132 @@ pair<string, string> find_url_path_of_value(char *url, char *path, char *value) 
         
 }
 
+void save_file(char *data, const char *url, const char *path) {
+
+        printf("Saving %s%s...\n", url, path);
+
+        char buff[5000];
+        char *path_x = (char *) malloc(sizeof(char) * (strlen(path) + 3));
+                
+        strcpy(path_x, path);
+
+        if (strcmp(path_x, "/") == 0) {
+                strcpy(path_x, "/index.html");
+        }
+
+        if (path_x[0] == '/')
+                path_x = path_x + 1;
+
+        stack<string> st;
+
+        struct stat statbuf; 
+        
+        int ret_files = stat("files", &statbuf);
+
+        if (ret_files == 0) {
+                chdir("files");
+        } else {
+                mkdir("files", 0755);
+                chdir("files");
+        }
+
+        int ret_stat = stat(url, &statbuf);
+
+        if (ret_stat == 0) {
+                chdir(url);
+        } else {
+                mkdir(url, 0755);
+                chdir(url);
+        }
+
+        int ret;
+
+        while ((ret = sscanf(path_x, "%[^/]/%s", buff, path_x)) > 0) {
+
+                if (ret == 1) {
+                        FILE *fp = fopen(buff, "w");
+                        fprintf(fp, "%s", data);
+                        fclose(fp);
+                } else {
+
+                        int ret_stat = stat(buff, &statbuf);
+
+                        if (ret_stat == 0) {
+                                chdir(buff);
+                        } else {
+                                mkdir(buff, 0755);
+                                chdir(buff);
+                        }
+
+                        string dir(buff);
+
+                        st.push(dir);
+                }
+
+                if (ret != 2)
+                        break;
+        }
+        while (!st.empty()) {
+                chdir("..");
+                st.pop();
+        }
+        chdir("../..");
+
+}
+
+vector<pair<string, string> > get_ref_url(char *url, int opt) {
+
+        char *url_copy = (char *) malloc(sizeof(char) * (strlen(url) + 2));
+
+        strcpy(url_copy, url);
+
+        char *response;
+
+        response = spider_get_data(url_copy);
+
+        size_t size_url, size_path;
+
+        char *path = spider_separate_url_path(url, &size_url, &size_path);
+
+        vector< pair< string, string> > resp;
+
+        if (opt == 1) {
+                save_file(response, url, path);
+        }
+
+        string s_path(path);
+        if (s_path.find(".css") != string::npos) {
+                        printf("\tNot HTML\n");
+                        return resp;
+        }       
+        if (s_path.find(".js") != string::npos) {
+                        printf("\tNot HTML\n");
+                        return resp;
+        } 
+        if (s_path.find(".ico") != string::npos) {
+                        printf("\tNot HTML\n");
+                        return resp;
+        } 
+        if (s_path.find(".pdf") != string::npos) {
+                        printf("\tNot HTML\n");
+                        return resp;
+        } 
+        if (s_path.find(".png") != string::npos) {
+                        printf("\tNot HTML\n");
+                        return resp;
+        } 
+        if (s_path.find(".jpg") != string::npos) {
+                        printf("\tNot HTML\n");
+                        return resp;
+        }
+
+        resp = get_ref_url(response, url, path);
+
+        return resp;
+
+}
+
+
 vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
 
         FILE *fp = fopen("html_parser.temp", "w");
@@ -154,6 +283,15 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
         vector< pair<string, string> > urls;
 
         string s_url(url), s_path(path);
+
+        if (s_path.find(".css") != string::npos) {
+                printf("\tNot HTML\n");
+        }
+        if (s_path.find(".js") != string::npos) {
+                printf("\tNot HTML\n");
+        }
+
+        printf("\tParsing HTML of %s%s\n", url, path);
 
         //stack<string> tags;
 
@@ -167,7 +305,7 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
         fscanf(fp, " %*[^<]");
         while((ret_f = fscanf(fp, "%c %c", &symbol, &tag[0])) == 2) {
 
-                printf("\tBEGIN TAG: %c%c\n", symbol, tag[0]);
+                //printf("\tBEGIN TAG: %c%c\n", symbol, tag[0]);
 
                 tag[1] = '\0';
 
@@ -180,7 +318,7 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                                 fscanf(fp, "%[^> \t\n\r]", tag + 1); // tag[0] + tag + 1 = name of tag
                         }
 
-                        printf("\tTAG: %s%s\n", close ? "/" : "", tag);
+                        //printf("\tTAG: %s%s\n", close ? "/" : "", tag);
 
 
                         //comments
@@ -211,7 +349,7 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
 
 
                         if (is_script == true && !(close == true && strcmp(tag, "script") == 0) ) {
-                                printf("\t Not a real tag\n");
+                                //printf("\t Not a real tag\n");
                                 fscanf(fp, ">");
                                 fscanf(fp, " %*[^<]");
                                 continue; //Is not a real tag, is part of a Javascript
@@ -219,12 +357,12 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
 
                         if (close == true) {
                                 //printf("\n\tClose: %s\n", tags.top().c_str());
-                                printf("\n\tClose: %s\n", tag);
+                                //printf("\n\tClose: %s\n", tag);
                                 //tags.pop();
                         } else {
                                 //string temp(tag);
                                 //tags.push(temp);
-                                printf("\n\tEnter: %s\n", tag);
+                                //printf("\n\tEnter: %s\n", tag);
                         }
 
                         char temp = '\0';
@@ -232,20 +370,20 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
 
                         while (fscanf(fp, " %[^=>< \t\n\r]%c", attr, &temp) == 2) {
 
-                                printf("\t Attr: %s\tTemp: %c\n", attr, temp);
+                                //printf("\t Attr: %s\tTemp: %c\n", attr, temp);
 
                                 if (temp == '=') {
                                         char delim;
                                         fscanf(fp, " %c", &delim);
 
-                                        printf("\tDelim: %c\n", delim);
+                                        //printf("\tDelim: %c\n", delim);
 
                                         if (delim == '\"')
                                                 fscanf(fp, "%[^\"]\"", value);
                                         else if (delim == '\'')
                                                 fscanf(fp, "%[^\']\'", value);
                                         else {
-                                                printf("Delimitador estranho: %c\n", delim);
+                                                //printf("Delimitador estranho: %c\n", delim);
                                                 return urls;
                                         }
                                 }
@@ -254,7 +392,7 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                                 else
                                         continue;
 
-                                printf("\t Attr: %s\tValue: %s\n", attr, value);
+                                //printf("\t Attr: %s\tValue: %s\n", attr, value);
 
                                 /*if (value[0] == '\"') {
                                         sscanf(value + 1, "%[^\"]", value); //find string delimited by beginning '\"' and ending '\"'
@@ -266,19 +404,19 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                                         if (strcmp(list_tag[i][0], tag) != 0)
                                                 continue;
 
-                                        printf("\tTAG MATCH: %s\n", tag);
+                                        //printf("\tTAG MATCH: %s\n", tag);
 
                                         for (int j = 1; list_tag[i][j][0] != '#'; j++) {
 
-                                               printf("\t%d %s\n", j, list_tag[i][j]);
+                                               //printf("\t%d %s\n", j, list_tag[i][j]);
                                                if (strcmp(list_tag[i][j], attr) != 0)
                                                        continue;
 
-                                               printf("\tATTR MATCH: %s\n", attr);
+                                               //printf("\tATTR MATCH: %s\n", attr);
 
                                                pair<string, string> new_ref = find_url_path_of_value(url, path, value);
 
-                                               cout << "\tURL: " << new_ref.first << "\tPATH: " << new_ref.second << "\n";
+                                               //cout << "\tURL: " << new_ref.first << "\tPATH: " << new_ref.second << "\n";
 
                                                urls.push_back(new_ref);
 
@@ -288,7 +426,7 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                         }
                         if (strcmp(tag, "script") == 0) {
                                 is_script = !close;
-                                printf("\tIS SCRIPT: %c\n", is_script ? 'Y' : 'N');
+                                //printf("\tIS SCRIPT: %c\n", is_script ? 'Y' : 'N');
                         }
 
                         fscanf(fp, ">");
@@ -298,7 +436,7 @@ vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
                         return urls;
                 }
         }
-        printf("\tEND %d\tSymbol: %c\tTag: %c\n", ret_f, symbol, tag[0]);
+        //printf("\tEND %d\tSymbol: %c\tTag: %c\n", ret_f, symbol, tag[0]);
 
         fclose(fp);
 

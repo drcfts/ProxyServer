@@ -7,7 +7,7 @@
 
 #define SPIDER_MSG_SIZE 500
 
-#define DEBUG_SPIDER 1
+#define DEBUG_SPIDER 0
 
 char *spider_get_response(char *request);
 

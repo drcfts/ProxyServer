@@ -6,6 +6,8 @@
 #include <string.h>
 #include <map>
 
+#define DEBUG_SPIDER_WEB 1
+
 using namespace std;
 
 struct node {
@@ -39,6 +41,14 @@ int add_node(struct web *wb, struct node *nd);
 
 struct web *create_web(char *url, char *name);
 
-int expand_web(struct web *wb);
+struct web *create_web(char *url);
+
+int expand_web(struct web *wb, int opt);
+
+void print(struct web *wb);
+
+struct web *spider(char *url);
+
+struct web *dump(char *url);
 
 #endif
