@@ -284,6 +284,8 @@ char *spider_get_response(char *request) {
         
         close(response_fd);
 
+        printf("Completed downloading\n");
+
         return response;
 }
 

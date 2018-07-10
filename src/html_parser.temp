@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 1dbe
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br" dir="ltr">
@@ -996,3 +997,17 @@ s="item-145"><a href="http://www.ouvidoria.unb.br/" >Ouvidoria UnB</a></li><li c
 
 0
 
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<?xml-stylesheet href="/plugins/system/vembed/vembed.css" type="text/css"?>
+<feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="pt-br">
+	<title type="text">UnB - Universidade de Brasília - Início</title>
+	<subtitle type="text"></subtitle>
+	<link rel="alternate" type="text/html" href="http://www.unb.br"/>
+	<id>http://www.unb.br/</id>
+	<updated>2018-07-10T09:09:25-03:00</updated>
+	<generator uri="https://www.joomla.org">Joomla! - Open Source Content Management</generator>
+	<link rel="self" type="application/atom+xml" href="http://www.unb.br/?format=feed&amp;type=atom"/>
+</feed>
+>>>>>>> Melhorias para evitar seg fault

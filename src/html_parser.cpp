@@ -197,11 +197,18 @@ void save_file(char *data, const char *url, const char *path) {
 
                         int ret_stat = stat(buff, &statbuf);
 
+                        int ret_chd;
+
                         if (ret_stat == 0) {
-                                chdir(buff);
+                                ret_chd = chdir(buff);
                         } else {
                                 mkdir(buff, 0755);
-                                chdir(buff);
+                                ret_chd = chdir(buff);
+                        }
+
+                        if (ret_chd != 0) {
+                                printf("Error acessing directory %s, can't save file\n", buff);
+                                return;
                         }
 
                         string dir(buff);
@@ -217,6 +224,8 @@ void save_file(char *data, const char *url, const char *path) {
                 st.pop();
         }
         chdir("../..");
+
+        printf("Completed saving\n");
 
 }
 
@@ -275,12 +284,22 @@ vector<pair<string, string> > get_ref_url(char *url, int opt) {
 
 vector<pair<string, string> > get_ref_url(char *data, char *url, char *path) {
 
-        FILE *fp = fopen("html_parser.temp", "w");
-        fprintf(fp, "%s", data);
-        fclose(fp);
-        fp = fopen("html_parser.temp", "r");
-
         vector< pair<string, string> > urls;
+
+//printf("\tAAA\n");
+        FILE *fp = fopen("html_parser.temp", "w");
+
+        if (fp == NULL) {
+                printf("\tCan't open file, won't search references in %s%s\n", url, path);
+                return urls;
+        }
+
+//printf("\tBBB %p\n", data);
+        fprintf(fp, "%s", data);
+//printf("\tCCC\n");
+        fclose(fp);
+//printf("\tCDD\n");
+        fp = fopen("html_parser.temp", "r");
 
         string s_url(url), s_path(path);
 
