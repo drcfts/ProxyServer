@@ -28,19 +28,29 @@ char *spider_get_full_msg(int request_fd, size_t *msg_size) {
         }
 
         msg[end_msg] = '\0';
+        
+#if DEBUG_SPIDER
+        printf("%p, %lu\n", msg, (*msg_size + 1) * sizeof(char));
+#endif
 
         while ( (bytes = recv(request_fd, msg + end_msg, SPIDER_MSG_SIZE, 0)) > 0) {
 
-                //printf("RECV:\n%s\n\t-------------\n", msg);
+#if DEBUG_SPIDER
+                printf("RECV:\n%s\n\t-------------\n", msg);
+#endif
 
                 *msg_size += bytes;
                 end_msg += bytes;
 
                 msg[end_msg] = '\0';
 
-                //printf("%p, %d\n", msg, (*msg_size + 1) * sizeof(char));
+#if DEBUG_SPIDER
+                printf("%p, %lu\n", msg, (*msg_size + 1) * sizeof(char));
+#endif
                 msg = (char *) realloc(msg, (*msg_size + 1) * sizeof(char));
-                //printf("DONE\n");
+#if DEBUG_SPIDER
+                printf("DONE\n");
+#endif
 
                 if (msg == NULL) {
                         *msg_size = 0;
@@ -48,7 +58,9 @@ char *spider_get_full_msg(int request_fd, size_t *msg_size) {
                 }
 
                 if (bytes < SPIDER_MSG_SIZE) {
-                        //printf("BYTES: %d\t TOTAL: %lu\n", bytes, end_msg);
+#if DEBUG_SPIDER
+                        printf("BYTES: %d\t TOTAL: %lu\n", bytes, end_msg);
+#endif
 //                        break;
                 }
         }
@@ -166,7 +178,7 @@ int spider_dns_get_ip(char *url, char *port) {
 
         struct timeval timeout;
 
-        timeout.tv_sec = 4;
+        timeout.tv_sec = 8;
         timeout.tv_usec = 0;
 
         setsockopt(sck_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout) );
