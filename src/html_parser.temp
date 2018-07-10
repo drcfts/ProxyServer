@@ -1,0 +1,998 @@
+1dbe
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br" dir="ltr">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  	<base href="http://www.unb.br/graduacao" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="Joomla! - Open Source Content Management" />
+	<title>UnB - Universidade de Brasília - Graduação</title>
+	<link href="/templates/unb/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<link href="/media/com_phocadownload/css/main/phocadownload.css" rel="stylesheet" type="text/css" />
+	<link href="/media/plg_content_phocadownload/css/phocadownload.css" rel="stylesheet" type="text/css" />
+	<link href="/media/system/css/modal.css?6cfc87c1c74f93ce59cdc1e62ac277ab" rel="stylesheet" type="text/css" />
+	<link href="/media/com_attachments/css/attachments_hide.css" rel="stylesheet" type="text/css" />
+	<link href="/media/com_attachments/css/attachments_list.css" rel="stylesheet" type="text/css" />
+	<link href="/templates/unb/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/templates/unb/css/custom.css" rel="stylesheet" type="text/css" />
+	<link href="/templates/unb/css/menu.css" rel="stylesheet" type="text/css" />
+	<link href="/plugins/system/vembed/vembed.css" rel="stylesheet" type="text/css" />
+	<link href="/modules/mod_phocagallery_slideshow_bxslider/javascript/jquery.bxslider.css" rel="stylesheet" type="text/css" />
+	<link href="/modules/mod_phocagallery_slideshow_bxslider/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="/media/jfontsize/css/jfontsize.css" rel="stylesheet" type="text/css" />
+	<script type="application/json" class="joomla-script-options new">{"csrf.token":"843a49a5639618d86018bb16c06e9b8f","system.paths":{"root":"","base":""}}</script>
+	<script src="/media/system/js/mootools-core.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/system/js/core.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/system/js/mootools-more.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/system/js/modal.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/jui/js/jquery.min.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/jui/js/jquery-noconflict.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/jui/js/jquery-migrate.min.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/com_attachments/js/attachments_refresh.js" type="text/javascript"></script>
+	<script src="/media/system/js/caption.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/media/jui/js/bootstrap.min.js?6cfc87c1c74f93ce59cdc1e62ac277ab" type="text/javascript"></script>
+	<script src="/templates/unb/js/template.js" type="text/javascript"></script>
+	<script src="/components/com_extrawatch/js/jdownloadurl.js" type="text/javascript"></script>
+	<script src="/components/com_extrawatch/js/extrawatch.js" type="text/javascript"></script>
+	<script src="/modules/mod_phocagallery_slideshow_bxslider/javascript/plugins/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="/modules/mod_phocagallery_slideshow_bxslider/javascript/plugins/jquery.fitvids.js" type="text/javascript"></script>
+	<script src="/modules/mod_phocagallery_slideshow_bxslider/javascript/jquery.bxslider.js" type="text/javascript"></script>
+	<script src="/media/jfontsize/js/jquery.jfontsize-1.0.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+		jQuery(function($) {
+			SqueezeBox.initialize({});
+			SqueezeBox.assign($('a.modal').get(), {
+				parse: 'rel'
+			});
+		});
+
+		window.jModalClose = function () {
+			SqueezeBox.close();
+		};
+		
+		// Add extra modal close functionality for tinyMCE-based editors
+		document.onreadystatechange = function () {
+			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
+			{
+				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
+				{	
+					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
+					
+					jModalClose = function () {
+						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+		
+				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
+				{
+					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
+					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
+		
+					SqueezeBox.close = function () {
+						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+			}
+		};
+		jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});var pgBXJQ =  jQuery.noConflict();pgBXJQ(document).ready(function(){
+  pgBXJQ('.pgbx-bxslider').show().bxSlider({
+	auto: true, pager: true, speed: 1500, controls: true,  easing: 'easeInBounce'
+ });
+});
+
+	</script>
+	<script type="text/javascript">
+	(function ($) {
+		$().ready(function () {
+			 $('body').jfontsize({
+			     btnMinusClasseId: '#jfontsize-minus',
+			     btnDefaultClasseId: '#jfontsize-default',
+			     btnPlusClasseId: '#jfontsize-plus',
+			     btnMinusMaxHits: 10,
+			     btnPlusMaxHits: 10,
+			     sizeChange: 1
+			 });
+		});
+	})(jQuery)
+</script>
+
+				<link href='//fonts.googleapis.com/css?family=liberation_sansregular' rel='stylesheet' type='text/css' /> 
+		<style type="text/css">
+			h1,h2,h3,h4,h5,h6,.site-title{
+				font-family: 'liberation_sansregular', sans-serif;
+			}
+		</style>
+				<style type="text/css">
+		body.site
+		{
+			border-top: 3px solid #1b4a81;
+			background-color: #ffffff		}
+		a
+		{
+			color: #1b4a81;
+		}
+		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
+		.btn-primary
+		{
+			background: #1b4a81;
+		}
+		.navbar-inner
+		{
+			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+		}
+
+	</style>
+		  	<!--[if lt IE 9]>
+		<script src="/media/jui/js/html5.js"></script>
+	<![endif]-->
+	<script defer="defer" src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>
+</head>
+
+<body class="site com_content view-article no-layout no-task itemid-439">
+
+	<!-- Body -->
+	<div class="body">
+	<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;"> 
+		<ul id="menu-barra-temp" style="list-style:none;">
+			<li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED"><a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">Portal do Governo Brasileiro</a></li> 
+			<li><a style="font-family:sans,sans-serif; text-decoration:none; color:white;" href="http://epwg.governoeletronico.gov.br/barra/atualize.html">Atualize sua Barra de Governo</a></li>
+		</ul>
+	</div>
+		<!--<div class="barra-topo"
+2000
+>
+			<div class="barra-inner container">
+				<div class="row-fluid">
+					<div class="logo-unb span3">
+						
+
+<div class="custom"  >
+	<p><a title="Ir para o Portal da UnB" href="http://www.unb.br"><img src="/images/logo-unb.png" alt="" /></a></p></div>
+
+					</div>
+					<div class="menu-unb span7">
+						<div class="menu-toggle-list">
+							<a class="btn-menu" data-toggle="collapse" data-target="#menu-collapse">
+								<img src="/images/icon-menu.png" alt="Ícone do menu"> <span>Menu</span>
+							</a>
+							<div id="menu-collapse" class="sp-mobile-menu collapse">
+								    
+							</div>
+						</div>	
+					</div>
+					<div class="links-unb span2 pull-right">
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>-->
+       <link type="text/css" href="https://web.unb.br/templates/compartilhado/css/template.css" rel="stylesheet">
+  
+<div class="barra-topo">
+    <div class="barra-inner container">
+      <div class="row-fluid">
+          <div class="logo-unb span3">
+             <div class="custom">
+				<p>
+                  </p>
+			 </div>
+          </div>
+          <div class="menu-unb span7">
+                    
+  
+          </div>
+          <div class="links-unb span2 pull-right">
+                 <div class="modulo-icones-barratopo" style="float:right">
+                     <ul>
+                         <!-- 111 <li><a target="_blank" href="https://webmail.unb.br/" class="icones-barratopo" id="default">&nbsp;</a>
+                         </li> -->
+<!-- JONA-->                         <li><a target="_blank" href="https://webmail.unb.br/" class="icones-barratopo" id="webmail" title="Webmail">&nbsp;</a>
+                         </li>
+			          	 			<li><a href="/../mapa-site" class="icones-barratopo" class="icones-barratopo" style="padding-right:35px" id="mapa" title="Mapa do Site">&nbsp;</a>
+                                        </li>
+                   	                          <li><a target="_blank" href="https://www.unb.br/images/mprazer.pdf" id="telefones" title="Telefones da UnB">&nbsp;</a>
+                         </li>
+                         <li><a target="_blank" href="http://www.unb.br/documentos?menu=475" id="transparencia" title="Transparência UnB">&nbsp;</a>
+                         </li>
+                       
+                       <li><a target="_blank" href="http://www.sistemas.unb.br" class="icones-barratopo" id="sistemas" title="Sistemas">&nbsp;</a>
+                         </li> 
+                       
+                       
+                     </ul>
+                 </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+    </div>
+  </div>
+
+
+
+  
+
+		</div>
+		<div class="container">
+			<!-- Header -->
+			<header class="header" role="banner">
+				<div class="header-inner clearfix">
+					<a class="brand pull-left" href="/">
+						<img src="http://www.unb.br/images/Imagens/logo_unb.png" alt="UnB - Universidade de Brasília" />											</a>
+					<div class="header-search pull-right">
+						<form action="/component/pesquisagoogle/" id="form_pesquisa" method="post" style="display:none">
+    <div class="btn-toolbar">
+        <div class="btn-group pull-left"> 
+            <!-- <input type="text" name="busca" placeholder="Pesquisar..." maxlength="" value="" class="inputbox search-query" /> -->
+            <input name="busca" id="mod-search-searchword" class="inputbox search-query" type="search" size="20" placeholder="Pesquisar...">
+        </div>
+    </div>
+</form>
+
+<script>
+    
+     jQuery(function($a) {
+    	$a("#pesquisa").click(function() {
+        		$a("#form_pesquisa").css("display", "inline-table");
+        		$a("#pesquisa").css("display", "none");
+                        $a(".search-query").attr("style" ,"margin-right: 5px;");
+                        var largura = $a(document).width();
+                        if (largura <= 767){
+                             $a(".jfontsize").attr("style", "width: 131px");
+			}
+			else{
+                           $a(".jfontsize").attr("style", "width: 103px !important;");
+			}
+	});	
+    });
+</script>
+<div class="jfontsize">
+	<a class="jfontsize-button" id="pesquisa">
+        <!-- <img src="/images/icones/icon_pesquisar.png" class="icone_pesquisa"> --> </a>
+        <a class="jfontsize-button" id="contraste"></a>
+	<a class="jfontsize-button" id="jfontsize-minus">A-</a>
+	<a class="jfontsize-button" id="jfontsize-default">A</a>
+	<a class="jfontsize-button" id="jfontsize-plus">A+</a>
+</div>
+
+<script>
+(function ($) {
+		$().ready(function () {
+		$( "a#contraste" ).click(function() {
+  		$("html").toggleClass( "contraste" );
+  		});
+		});
+	})(jQuery)
+
+</script>
+
+					</div>
+				</div>
+			</header>
+							<div class="row-fluid">
+					<div class="menu-site span12">
+						<nav class="navigation navbar" role="navigation">
+							<ul class="nav menu"style="position:relative;z-index:3">
+<li class="item-101"><a class=" hidden" href="/" >Início</a></li><li class="item-722 deeper parent"><a href="https://www.noticias.unb.br/" >Notícias</a><ul class="dropdown-menu-principal"><li class="item-723"><a href="https://noticias.unb.br/publicacoes" target="_blank" >Últimas</a></li><li class="item-724"><a href="https://www.unbciencia.unb.br/" target="_blank" >UnBCiência</a></li><li class="item-725"><a href="https://www.noticias.unb.br/component/agenda/agendas" target="_blank" >UnBAgenda</a></li><li class="item-726"><a href="https://www.noticias.unb.br/unb-hoje" target="_blank" >UnBHoje</a></li><li class="item-727"><a href="http://www.revistadarcy.unb.br/" target="_blank" >Darcy</a></li></ul></li><li class="item-422 deeper parent"><a href="/institucional" >Institucional</a><ul class="dropdown-menu-principal"><li class="item-592"><a href="http://www.unb.br/a-unb?menu=423" >A UnB</a></li><li class="item-593"><a href="http://www.unb.br/campi?menu=424" >Campi</a></li><li class="item-594"><a href="http://www.unb.br/estrutura-administrativa?menu=425" >Estrutura administrativa</a></li><li class="item-595"><a href="http://www.prefeitura.unb.br" target="_blank" >Prefeitura</a></li><li class="item-597"><a href="http://www.unb.br/documentos?menu=475" >Transparência e documentos</a></li></ul></li><li class="item-373 deeper parent"><a href="/estude-na-unb" >Estude na UnB</a><ul class="dropdown-menu-principal"><li class="item-598"><a href="http://www.unb.br/graduacao2?menu=434" >Graduação</a></li><li class="item-599"><a href="http://www.unb.br/pos-graduacao2?menu=435" >Pós-graduação</a></li></ul></li><li class="item-374 deeper parent"><a href="/aluno" >Aluno</a><ul class="dropdown-menu-principal"><li class="item-601"><a href="http://www.unb.br/graduacao?menu=439" >Graduação</a></li><li class="item-602"><a href="http://www.unb.br/pos-graduacao?menu=440" >Pós-graduação</a></li><li class="item-701"><a href="http://dex.unb.br/" >Extensão</a></li><li class="item-606"><a href="/aluno/ex-aluno" >Ex-aluno</a></li><li class="item-607"><a href="http://www.unbidiomas.unb.br/" target="_blank" >Idiomas</a></li><li class="item-608"><a href="http://www.unb.br/atendimento?menu=471" >Atendimento</a></li><li class="item-609"><a href="https://www.facebook.com/dce.unb/" target="_blank" >Diretório Central dos Estudantes</a></li><li class="item-603"><a href="http://www.unb.br/educacao-a-distancia?menu=441" >Educação a distância</a></li><li class="item-103"><a href="http://aprender.unb.br/" target="_blank" >Aprender UnB</a></li><li class="item-604"><a href="http://www.dds.dac.unb.br" target="_blank" >Assistência estudantil</a></li><li class="item-642"><a href="https://aluno.unb.br/" target="_blank" >Portal Aluno</a></li><li class="item-327"><a href="https://servicos.unb.br/dadosdados/login/index.html?response_type=code&amp;client_id=95&amp;redirect_uri=/sae/index.html" target="_blank" >SaeWeb</a></li><li class="item-605"><a href="https://matriculaweb.unb.br/" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,');return false;" >Matrícula Web</a></li></ul></li><li class="item-375 deeper parent"><a href="/unidades-academicas" >Unidades acadêmicas</a><ul class="dropdown-menu-
+2000
+principal"><li class="item-610"><a href="/unidades-academicas/institutos" >Institutos</a></li><li class="item-611"><a href="/unidades-academicas/faculdades" >Faculdades</a></li><li class="item-612"><a href="/unidades-academicas/centros" >Centros</a></li><li class="item-613"><a href="/unidades-academicas/nucleos" >Núcleos</a></li><li class="item-614"><a href="/unidades-academicas/laboratorios" >Laboratórios</a></li><li class="item-542"><a href="http://www.fal.unb.br/" target="_blank" >Fazenda Água Limpa</a></li></ul></li><li class="item-376 deeper parent"><a href="/servicos" >Serviços</a><ul class="dropdown-menu-principal"><li class="item-615"><a href="http://www.saa.unb.br/calendarios" target="_blank" >Calendários</a></li><li class="item-616"><a href="http://www.unb.br/images/Noticias/2016/Documentos/Carta_Cidadao.pdf" target="_blank" >Carta de Serviços</a></li><li class="item-617"><a href="http://www.bce.unb.br/" target="_blank" >Biblioteca Central</a></li><li class="item-251"><a href="http://www.museuvirtual.unb.br/index.htm" target="_blank" >Museu Virtual</a></li><li class="item-618"><a href="http://www.arquivocentral.unb.br/" target="_blank" >Arquivo Central</a></li><li class="item-619"><a href="http://www.ebserh.gov.br/web/hub-unb" target="_blank" >Hospital Universitário</a></li><li class="item-620"><a href="/servicos/hospitais-veterinarios" >Hospitais Veterinários</a></li><li class="item-621"><a href="http://www.ouvidoria.unb.br/" target="_blank" >Ouvidoria</a></li><li class="item-622"><a href="http://www.ppne.unb.br/" target="_blank" >Necessidades especiais</a></li><li class="item-623"><a href="http://www.editora.unb.br/" target="_blank" >Editora</a></li><li class="item-729"><a href="/servicos/menu-campi" >Conheça os campi</a></li><li class="item-631"><a href="/servicos/transporte" >Transporte</a></li><li class="item-632"><a href="/servicos/alimentacao" >Alimentação</a></li><li class="item-308"><a href="/servicos/fale-conosco" >Fale Conosco</a></li></ul></li><li class="item-377 deeper parent"><a href="/comunidade" >Comunidade</a><ul class="dropdown-menu-principal"><li class="item-580"><a href="https://www.sistemas.unb.br/siex/publico/oferta_extensao_listagem.xhtml" target="_blank" >Projetos de extensão</a></li><li class="item-624"><a href="http://www.dea.unb.br/" target="_blank" >Esporte, Arte e Cultura</a></li><li class="item-625"><a href="/comunidade/nossos-pesquisadores" >Nossos Pesquisadores</a></li><li class="item-626"><a href="http://www.unb.br/oportunidades?menu=456" >Oportunidades</a></li><li class="item-627"><a href="http://www.cds.unb.br/" target="_blank" >Sustentabilidade</a></li><li class="item-628"><a href="https://www.facebook.com/divunb" target="_blank" >Diversidade</a></li><li class="item-629"><a href="http://www.cal.unb.br/" target="_blank" >Casa da Cultura da América Latina</a></li><li class="item-600"><a href="http://www.unbidiomas.unb.br/" target="_blank" >UnB Idiomas</a></li></ul></li><li class="item-378 deeper parent"><a href="/servidor" >Servidor</a><ul class="dropdown-menu-principal"><li class="item-633"><a href="http://dgp.unb.br" target="_blank" >Docente</a></li><li class="item-634"><a href="http://dgp.unb.br" target="_blank" >Técnico administrativo</a></li><li class="item-635"><a href="http://dgp.unb.br/servi" target="_blank" >Guia do Servidor</a></li><li class="item-372"><a href="http://www.capacitacao.unb.br/" target="_blank" >Capacitação</a></li><li class="item-591"><a href="/servidor/sindicatos-e-associacoes" >Sindicatos e Associações</a></li></ul></li></ul>
+
+						</nav>
+					</div>			
+				</div>
+												<div class="moduletable">
+						<div class="bannergroup">
+
+	<div class="banneritem">
+																																																		<img
+						src="http://www.unb.br/images/banners/180816_Aluno_MuriloAbreu.jpg"
+						alt="Menu Aluno"
+																	/>
+											<div class="clr"></div>
+	</div>
+
+</div>
+		</div>
+	
+			
+			<div class="row-fluid">
+									<div id="aside" class="side span4">
+						<!-- Begin Right Sidebar -->
+								<div class="moduletable  menu-interno">
+						<style>
+.list-group{padding-left:0;margin-bottom:20px}.list-group-item{position:relative;display:block;padding:10px 15px;margin-bottom:-1px;background-color:#fff;border:1px solid #ddd}.list-group-item:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.list-group-item:last-child{margin-bottom:0;border-bottom-right-radius:4px;border-bottom-left-radius:4px}a.list-group-item,button.list-group-item{color:#555}a.list-group-item .list-group-item-heading,button.list-group-item .list-group-item-heading{color:#333}a.list-group-item:focus,a.list-group-item:hover,button.list-group-item:focus,button.list-group-item:hover{color:#555;text-decoration:none;background-color:#f5f5f5}button.list-group-item{width:100%;text-align:left}.list-group-item.disabled,.list-group-item.disabled:focus,.list-group-item.disabled:hover{color:#777;cursor:not-allowed;background-color:#eee}.list-group-item.disabled .list-group-item-heading,.list-group-item.disabled:focus .list-group-item-heading,.list-group-item.disabled:hover .list-group-item-heading{color:inherit}.list-group-item.disabled .list-group-item-text,.list-group-item.disabled:focus .list-group-item-text,.list-group-item.disabled:hover .list-group-item-text{color:#777}.list-group-item.active,.list-group-item.active:focus,.list-group-item.active:hover{z-index:2;color:#fff;background-color:#337ab7;border-color:#337ab7}.list-group-item.active .list-group-item-heading,.list-group-item.active .list-group-item-heading>.small,.list-group-item.active .list-group-item-heading>small,.list-group-item.active:focus .list-group-item-heading,.list-group-item.active:focus .list-group-item-heading>.small,.list-group-item.active:focus .list-group-item-heading>small,.list-group-item.active:hover .list-group-item-heading,.list-group-item.active:hover .list-group-item-heading>.small,.list-group-item.active:hover .list-group-item-heading>small{color:inherit}.list-group-item.active .list-group-item-text,.list-group-item.active:focus .list-group-item-text,.list-group-item.active:hover .list-group-item-text{color:#c7ddef}.list-group-item-success{color:#3c763d;background-color:#dff0d8}a.list-group-item-success,button.list-group-item-success{color:#3c763d}a.list-group-item-success .list-group-item-heading,button.list-group-item-success .list-group-item-heading{color:inherit}a.list-group-item-success:focus,a.list-group-item-success:hover,button.list-group-item-success:focus,button.list-group-item-success:hover{color:#3c763d;background-color:#d0e9c6}a.list-group-item-success.active,a.list-group-item-success.active:focus,a.list-group-item-success.active:hover,button.list-group-item-success.active,button.list-group-item-success.active:focus,button.list-group-item-success.active:hover{color:#fff;background-color:#3c763d;border-color:#3c763d}.list-group-item-info{color:#31708f;background-color:#d9edf7}a.list-group-item-info,button.list-group-item-info{color:#31708f}a.list-group-item-info .list-group-item-heading,button.list-group-item-info .list-group-item-heading{color:inherit}a.list-group-item-info:focus,a.list-group-item-info:hover,button.list-group-item-info:focus,button.list-group-item-info:hover{color:#31708f;background-color:#c4e3f3}a.list-group-item-info.active,a.list-group-item-info.active:focus,a.list-group-item-info.active:hover,button.list-group-item-info.active,button.list-group-item-info.active:focus,button.list-group-item-info.active:hover{color:#fff;background-color:#31708f;border-color:#31708f}.list-group-item-warning{color:#8a6d3b;background-color:#fcf8e3}a.list-group-item-warning,button.list-group-item-warning{color:#8a6d3b}a.list-group-item-warning .list-group-item-heading,button.list-group-item-warning .list-group-item-heading{color:inherit}a.list-group-item-warning:focus,a.list-group-item-warning:hover,button.list-group-item-warning:focus,button.list-group-item-warning:hover{color:#8a6d3b;background-color:#faf2cc}a.list-group-item-warning.active,a.list-group-item-warning.active:focus,a.list-group-item-warning.active:hover,button.list-group-item-warning.active,button.list-g
+2000
+roup-item-warning.active:focus,button.list-group-item-warning.active:hover{color:#fff;background-color:#8a6d3b;border-color:#8a6d3b}.list-group-item-danger{color:#a94442;background-color:#f2dede}a.list-group-item-danger,button.list-group-item-danger{color:#a94442}a.list-group-item-danger .list-group-item-heading,button.list-group-item-danger .list-group-item-heading{color:inherit}a.list-group-item-danger:focus,a.list-group-item-danger:hover,button.list-group-item-danger:focus,button.list-group-item-danger:hover{color:#a94442;background-color:#ebcccc}a.list-group-item-danger.active,a.list-group-item-danger.active:focus,a.list-group-item-danger.active:hover,button.list-group-item-danger.active,button.list-group-item-danger.active:focus,button.list-group-item-danger.active:hover{color:#fff;background-color:#a94442;border-color:#a94442}.list-group-item-heading{margin-top:0;margin-bottom:5px}.list-group-item-text{margin-bottom:0;line-height:1.3}.panel{margin-bottom:20px;background-color:#fff;border:1px solid transparent;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);box-shadow:0 1px 1px rgba(0,0,0,.05)}.panel-body{padding:15px}.panel-heading{padding:10px 15px;border-bottom:1px solid transparent;border-top-left-radius:3px;border-top-right-radius:3px}.panel-heading>.dropdown .dropdown-toggle{color:inherit}.panel-title{margin-top:0;margin-bottom:0;font-size:16px;color:inherit}.panel-title>.small,.panel-title>.small>a,.panel-title>a,.panel-title>small,.panel-title>small>a{color:inherit}.panel-footer{padding:10px 15px;background-color:#f5f5f5;border-top:1px solid #ddd;border-bottom-right-radius:3px;border-bottom-left-radius:3px}.panel>.list-group,.panel>.panel-collapse>.list-group{margin-bottom:0}.panel>.list-group .list-group-item,.panel>.panel-collapse>.list-group .list-group-item{border-width:1px 0;border-radius:0}.panel>.list-group:first-child .list-group-item:first-child,.panel>.panel-collapse>.list-group:first-child .list-group-item:first-child{border-top:0;border-top-left-radius:3px;border-top-right-radius:3px}.panel>.list-group:last-child .list-group-item:last-child,.panel>.panel-collapse>.list-group:last-child .list-group-item:last-child{border-bottom:0;border-bottom-right-radius:3px;border-bottom-left-radius:3px}.panel>.panel-heading+.panel-collapse>.list-group .list-group-item:first-child{border-top-left-radius:0;border-top-right-radius:0}.panel-heading+.list-group .list-group-item:first-child{border-top-width:0}.list-group+.panel-footer{border-top-width:0}.panel>.panel-collapse>.table,.panel>.table,.panel>.table-responsive>.table{margin-bottom:0}
+.glyphicon-chevron-down:before {
+    content: "\e114";
+}
+</style>
+
+<style>
+.just-padding {
+  /*padding: 15px;*/
+}
+
+.list-group.list-group-root {
+  padding: 0;
+  overflow: hidden;
+}
+
+.list-group.list-group-root .list-group {
+  margin-bottom: 0;
+}
+
+.list-group.list-group-root .list-group-item {
+  border-radius: 0;
+  border-width: 1px 0 0 0;
+}
+
+/*.list-group.list-group-root > .list-group-item:first-child {
+  border-top-width: 0;
+}*/
+.list-group.list-group-root >  .list-group-item {
+  background: #eaebee;
+  border-top: 0px solid #0fff;
+  font-weight: bold;
+  /*text-transform: uppercase;*/
+  cursor:pointer;
+  margin-top: 10px;
+}
+.list-group.list-group-root > .list-group > .list-group-item {
+  /*padding-left: 30px;
+  font-weight: bold;*/
+}
+
+.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+  padding-left: 30px;
+}
+
+.list-group-item .glyphicon {
+  margin-right: 5px;
+  float: right;
+}
+
+list-group > a{
+  border-top: 3px solid #090;
+}
+.well{
+  border:0px;
+  background-color: #fff; 
+  border-radius: none; 
+}
+
+.list-group-item.collapsed {
+  font-weight: normal;
+}
+</style>
+
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/templates/unb/css/fonts/font-awesome/css/font-awesome.min.css">
+
+
+<div class="just-padding">
+
+  <div class="list-group list-group-root ">
+    
+
+            <a id="a439" href="/graduacao?menu=439"   class="list-group-item"  >
+              
+            <!--<i class="glyphicon glyphicon-chevron-down"></i>-->
+                        <span id="d439" class="fa fa-chevron-down">
+            <span class="span-text-menu"> Graduação </span> </span>
+            
+          </a>
+            <div class="list-group collapse" id="item-439"><a href="/graduacao/cursos-presenciais?menu=439"   class="list-group-item" >Cursos presenciais</a><a href="/graduacao/curso-a-distancia?menu=439"   class="list-group-item" >Curso a distância</a><a href="http://www.saa.unb.br/graduacao?menu=439"   class="list-group-item"  target="_blank" >Calendário</a><a href="http://www.boasvindas.unb.br/images/guia_calouro.pdf?menu=439"   class="list-group-item"  target="_blank" >Guia do calouro</a><a href="/graduacao/registro?menu=439"   class="list-group-item" >Registro</a><a href="http://proic.unb.br/​?menu=439"   class="list-group-item"  target="_blank" >Iniciação científica</a><a href="/graduacao/diploma?menu=439"   class="list-group-item" >Diploma</a><a href="https://matriculaweb.unb.br/?menu=439"   class="list-group-item"  target="_blank" >Oferta de disciplinas</a><a href="https://matriculaweb.unb.br/graduacao/curso_campus.aspx?menu=439"   class="list-group-item"  target="_blank" >Fluxos e currículos</a></div>          <a id="a440" href="/pos-graduacao?menu=440"   class="list-group-item"  >
+              
+            <!--<i class="glyphicon glyphicon-chevron-down"></i>-->
+                        <span id="d440" class="fa fa-chevron-down">
+            <span class="span-text-menu"> Pós-graduação </span> </span>
+            
+          </a>
+            <div class="list-group collapse" id="item-440"><a href="http://www.dpg.unb.br/index.php?option=com_content&view=article&id=527&Itemid=422?menu=440"   class="list-group-item"  target="_blank" >Editais</a><a href="/pos-graduacao/2016-06-30-17-40-57?menu=440"   class="list-group-item" >Especialização</a><a href="https://matriculaweb.unb.br/posgraduacao/default.aspx?menu=440"   class="list-group-item"  target="_blank" >Mestrado e doutorado</a><a href="http://www.saa.unb.br/pos-graduacao?menu=440"   class="list-group-item"  target="_blank" >Calendário</a><a href="/pos-graduacao/diploma?menu=440"   class="list-group-item" >Diploma</a><a href="https://matriculaweb.unb.br/posgraduacao/oferta_campus.aspx?menu=440"   class="list-group-item"  target="_blank" >Oferta de disciplinas</a></div>          <a href="http://www.dex.unb.br"   class="list-group-item" >
+        Extensão          </a> 
+                <a href="/ex-aluno"   class="list-group-item" >
+        Ex-aluno          </a> 
+                <a href="http://www.unbidiomas.unb.br/"   class="list-group-item"  target="_blank" >
+        Idiomas          </a> 
+                <a id="a471" href="/atendimento?menu=471"   class="list-group-item"  >
+              
+            <!--<i class="glyphicon glyphicon-chevron-down"></i>-->
+                        <span id="d471" class="fa fa-chevron-down">
+            <span class="span-text-menu"> Atendimento </span> </span>
+            
+          </a>
+            <div class="list-group collapse" id="item-471"><a href="/atendimento/registro?menu=471"   class="list-group-item" >Registro</a><a href="/atendimento/carteira-de-estudante?menu=471"   class="list-group-item" >Carteira de estudante</a><a href="/atendimento/diploma?menu=471"   class="list-group-item" >Diploma</a><a href="http://www.saa.unb.br/alteracao-opcao?menu=471"   class="list-group-item"  target="_blank" >Mudança de curso e/ou habilitação</a><a href="http://www.ouvidoria.unb.br?menu=471"   class="list-group-item"  target="_blank" >Ouvidoria</a><a href="http://www.arquivocentral.unb.br/?menu=471"   class="list-group-item"  target="_blank" >Arquivo Central</a><a href="/atendimento/colacao-de-grau?menu=471"   class="list-group-item" >Colação de grau</a><a href="http://www.deg.unb.br/index.php?option=com_content&view=article&id=13&Itemid=658?menu=471"   class="list-group-item"  target="_blank" >Orientação ao universitário</a><a href="http://www.ppne.unb.br/?menu=471"   class="list-group-it
+1000
+em"  target="_blank" >Necessidades especiais</a><a href="http://www.bce.unb.br/emprestimos/?menu=471"   class="list-group-item"  target="_blank" >Empréstimo de livros</a></div>          <a href="https://www.facebook.com/dce.unb/"   class="list-group-item"  target="_blank" >
+        Diretório Central dos Estudantes           </a> 
+                <a id="a441" href="/educacao-a-distancia?menu=441"   class="list-group-item"  >
+              
+            <!--<i class="glyphicon glyphicon-chevron-down"></i>-->
+                        <span id="d441" class="fa fa-chevron-down">
+            <span class="span-text-menu"> Educação a distância </span> </span>
+            
+          </a>
+            <div class="list-group collapse" id="item-441"><a href="http://www.uab.unb.br/?menu=441"   class="list-group-item"  target="_blank" >Diretoria de Ensino de Graduação a Distância </a><a href="http://www.cead.unb.br?menu=441"   class="list-group-item"  target="_blank" >Centro de Ensino a Distância</a></div>          <a href="http://aprender.unb.br/"   class="list-group-item"  target="_blank" >
+        Aprender UnB          </a> 
+                <a href="http://www.dds.dac.unb.br"   class="list-group-item"  target="_blank" >
+        Assistência estudantil          </a> 
+                <a href="https://aluno.unb.br/"   class="list-group-item"  target="_blank" >
+        Portal Aluno          </a> 
+                <a href="https://servicos.unb.br/dadosdados/login/index.html?response_type=code&client_id=95&redirect_uri=/sae/index.html"   class="list-group-item"  target="_blank" >
+        SaeWeb          </a> 
+                <a href="https://matriculaweb.unb.br/"   class="list-group-item"  target="_blank" >
+        Matrícula web          </a> 
+                   </div>
+</div>
+
+<!--<script>
+$(function() {
+        
+  $('.list-group-item').click(function() {
+    $('.glyphicon', this)
+      .toggleClass('glyphicon-chevron-down')
+      .toggleClass('glyphicon-chevron-up');
+  });
+
+});
+</script>-->
+<script>
+submenuOn();
+</script>
+
+<!-- ##### -->
+
+
+		</div>
+	
+						<!-- End Right Sidebar -->
+					</div>
+								<main id="content" role="main" class="span8">
+					<!-- Begin Content -->
+					
+					<div id="system-message-container">
+	</div>
+
+					<div class="item-page" itemscope itemtype="http://schema.org/Article">
+	<meta itemprop="inLanguage" content="pt-BR" />
+	
+		
+			        <div class="page-header">
+		<h2 itemprop="name">
+						
+				Graduação					</h2>
+							</div>
+					                <figure class="pull-right"><img src="/images/Destaque/AulaFisica_LuanaLleras.jpg" alt="Aula de Física" width="350" />
+<figcaption>Foto: Luana Lieras</figcaption>
+</figure>
+<p>É com grande orgulho que a Universidade de Brasília (UnB) recebe seus estudantes. Nosso objetivo é que eles aproveitem ao máximo as oportunidades que se abrem a partir do ingresso na UnB, universidade plural, de amplo espaço para interação, reflexão, debate, aprendizagem, criação, inovação e crescimento intelectual e social.<br /> <br />As principais informações relativas aos procedimentos acadêmicos, aos órgãos e serviços oferecidos aos estudantes de graduação estão disponíveis no Guia do Calouro. Ele é a primeira fonte de consulta para que o estudante se sinta integrado em nossa comunidade acadêmica.<br /> <br />Sugerimos ao calouro iniciar sua trajetória colhendo o máximo de informações sobre o cotidiano acadêmico na UnB e sobre o seu curso. Procurar o coordenador de graduação de sua unidade é essencial para esclarecer dúvidas ou encaminhar procedimentos acadêmicos ou de matrícula.<br /> <br />Parabenizamos os calouros pelo êxito obtido até aqui. Sabemos que essa conquista é resultado de muito esforço. Sabemos também que o curso de graduação exige novos desafios e responsabilidades. Estamos juntos nessa nova etapa.</p>
+<p> </p>
+    				<ul class="article-info">
+
+		
+			<!--<dt class="article-info-term">
+													Detalhes							</dt> -->
+			
+			
+			
+										<li class="published">
+				<!-- <span class="icon-calendar"><
+2000
+/span> -->
+				<time datetime="2016-06-23T17:05:09-03:00" itemprop="datePublished">
+					23/06/2016				</time>
+			</li>					
+			</ul>
+	
+		
+	        		
+						<ul class="article-info">
+
+		
+					
+			
+						</ul>
+				    <!-- Sutiã - alterar para fulltext -->
+    
+	<div itemprop="articleBody">
+		 <div class="attachmentsContainer">
+
+<div class="attachmentsList" id="attachmentsList_com_content_default_614"></div>
+
+</div>	</div>
+
+	        
+        			
+							
+	<!--	<div class="autor"> 
+		<img class="imgautorartigo" src="/images/autores/2.jpg"/><span>Fulano de Tal</span><hr><p></p>		</div>
+		-->
+
+
+		</div>
+
+
+<meta property="og:locale" content="pt_BR"><meta property="og:url" content="http://www.unb.br/<meta property="og:title" content="Graduação"><meta property="og:site_name" content="Graduação"><meta property="og:description" content="> <br />As principais informações relativas aos procedimentos acadêmicos, aos órgãos e serviço"><meta property="og:image" content="http://www.unb.br/s="><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="800"><meta property="og:image:height" content="600"><meta content="http://www.unb.br/s=" itemprop="image"> <meta content="http://www.unb.br/s=" itemprop="image_url"><link href="http://www.unb.br/s=" rel="image_src"><meta content="http://www.unb.br/s=" itemprop="image primaryImageOfPage" property="og:image">
+					<div class="well  galeria-cinza pull-left"><h3 class="page-header">Galeria</h3><ul class="pgbx-bxslider bxslider">
+<li><a href="/component/phocagallery/category/1-galeria-randomica" target="_blank"><img src="/images/phocagallery/thumbs/phoca_thumb_l_restauranteuniversitario-1978_ace-unb.jpg" alt="Restaurante Universitário - Arquivo Central/UnB" title="Restaurante Universitário - Arquivo Central/UnB"  /></a></li>
+<li><a href="/component/phocagallery/category/1-galeria-randomica" target="_blank"><img src="/images/phocagallery/thumbs/phoca_thumb_l_cotidiano - o muro e campus73-76 15.jpg" alt="Estudante de Física - Campus73" title="Estudante de Física - Campus73"  /></a></li>
+<li><a href="/component/phocagallery/category/1-galeria-randomica" target="_blank"><img src="/images/phocagallery/thumbs/phoca_thumb_l_homenagemluciocosta1992_ace-unb.jpg" alt="Homenagem a Lúcio Costa - Foto: Arquivo Central/UnB" title="Homenagem a Lúcio Costa - Foto: Arquivo Central/UnB"  /></a></li>
+<li><a href="/component/phocagallery/category/1-galeria-randomica" target="_blank"><img src="/images/phocagallery/thumbs/phoca_thumb_l_invasaopolicial1977_ace-unb.jpg" alt="Exposição UnB 55 Anos" title="Exposição UnB 55 Anos"  /></a></li>
+<li><a href="/component/phocagallery/category/1-galeria-randomica" target="_blank"><img src="/images/phocagallery/thumbs/phoca_thumb_l_darcyribeirooscarniemeyervisitamunb_ace-unb.jpg" alt="Oscar e Darcy" title="Oscar e Darcy"  /></a></li>
+<li><a href="/component/phocagallery/category/1-galeria-randomica" target="_blank"><img src="/images/phocagallery/thumbs/phoca_thumb_l_vistaaereaunb-1972_fontearpdf 2.jpg" alt="Vista Aérea ICC" title="Vista Aérea ICC"  /></a></li>
+</ul></div><div class="well  moduletable al-dir ultimas span4  galeria-cinza span4"><h3 class="page-header">Últimas</h3><div id="carousel-207"  class="carousel slide-multi">
+
+    
+        <div class="carousel-inner">
+            <div class="item active">
+                    
+                    								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#1685 (5) {
+  ["image"]=>
+  string(64) "/images/Noticias/2018/07-Jul/29jun18_danielsimiao_lgprado_01.jpg"
+  ["title"]=>
+  string(47) "Conferência reúne pesquisas sobre Timor-Leste"
+  ["author"]=>
+  string(153) "Cooperação entre brasileiros e timorenses existe desde a independência do país asiático, em 2002. Resultados têm se intensificado nos últimos anos"
+  ["link"]=>
+  string(76) "/publicacoes/117-pesquisa/2384-conferencia-reune-pesquisas-sobre-timor-leste"
+  ["date"]=>
+  string(10) "09/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/117-pesquisa/2384-conferencia-reune-pesquisas-sobre-timor-leste" itemprop="url">
+											<span itemprop="name">
+												Conferência reúne pesquisas sobre Timor-Leste											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2065 (5) {
+  ["image"]=>
+  string(60) "/images/Noticias/2018/07-Jul/09072018_LivroDigital_Secom.jpg"
+  ["title"]=>
+  string(56) "Edital inédito incentiva publicação de livros abertos"
+  ["author"]=>
+  string(201) "Iniciativa da BCE e da Editora UnB contemplará oito produções de docentes, em diversas áreas do conhecimento. Livros serão disponibilizados on-line. Submissões das propostas vão até 15 de julho"
+  ["link"]=>
+  string(80) "/publicacoes/76-institucional/2383-edital-incentiva-publicacao-de-livros-abertos"
+  ["date"]=>
+  string(10) "09/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/76-institucional/2383-edital-incentiva-publicacao-de-livros-abertos" itemprop="url">
+											<span itemprop="name">
+												Edital inédito incentiva publicação de livros abertos											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+</div><div class="item">								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2066 (5) {
+  ["image"]=>
+  string(39) "/images/Noticias/070815_boasvindas1.jpg"
+  ["title"]=>
+  string(75) "Divulgação da primeira chamada de vagas remanescentes tem data retificada"
+  ["author"]=>
+  string(125) "Resultado está previsto para 9 de julho. Processo seletivo ofereceu 202 oportunidades de ingresso no segundo semestre letivo"
+  ["link"]=>
+  string(101) "/publicacoes/67-ensino/2380-divulgacao-da-primeira-chamada-de-vagas-remanescentes-tem-data-retificada"
+  ["date"]=>
+  string(10) "06/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/67-ensino/2380-divulgacao-da-primeira-chamada-de-vagas-remanescentes-tem-data-retificada" itemprop="url">
+											<span itemprop="name">
+												Divulgação da primeira chamada de vagas remanescentes tem data retif ...											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2068 (5) {
+  ["image"]=>
+  string(86) "/images/Noticias/2018/07-Jul/29062018_FGA_FeiraInovacaoTecnologia_BetoMonteiro-330.jpg"
+  ["title"]=>
+  string(54) "Evento na FGA incentiva desenvolvimento de tecnologias"
+  ["author"]=>
+  string(233) "<span style="font-weight: 400;">Feira comemorativa pelos dez anos da Faculdade UnB Gama apresentou protótipos elaborados por estudantes das cinco engenharias do campus, demonstrando o potencial técnico e criativo dos alunos</span>"
+  ["link"]=>
+  string(85) "/publicacoes/117-pesquisa/2378-evento-na-fga-incentiva-desenvolvimento-de-tecnologias"
+  ["date"]=>
+  string(10) "06/07/2018"
+}
+ -->
+											10/07/2018							
+2000
+			</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/117-pesquisa/2378-evento-na-fga-incentiva-desenvolvimento-de-tecnologias" itemprop="url">
+											<span itemprop="name">
+												Evento na FGA incentiva desenvolvimento de tecnologias											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+</div><div class="item">								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2076 (5) {
+  ["image"]=>
+  string(77) "/images/Noticias/2018/06-Jun/27_homenagemellylisboa_RaquelAviani_11062018.jpg"
+  ["title"]=>
+  string(56) "Universidade planeja política de apoio à saúde mental"
+  ["author"]=>
+  string(158) "Comissão trabalha para consolidar rede de assistência psicológica à comunidade acadêmica. Conheça serviços de atendimento e acolhimento já oferecidos"
+  ["link"]=>
+  string(88) "/publicacoes/76-institucional/2368-universidade-planeja-politica-de-apoio-a-saude-mental"
+  ["date"]=>
+  string(10) "05/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/76-institucional/2368-universidade-planeja-politica-de-apoio-a-saude-mental" itemprop="url">
+											<span itemprop="name">
+												Universidade planeja política de apoio à saúde mental											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#1681 (5) {
+  ["image"]=>
+  string(36) "/images/Noticias/2018/05-Mai/sig.JPG"
+  ["title"]=>
+  string(50) "UnB inicia operações com novo sistema de gestão"
+  ["author"]=>
+  string(141) "Pacote de ferramentas informatizadas oferece integração e agilidade a procedimentos internos. Módulos começaram a funcionar em 2 de julho"
+  ["link"]=>
+  string(82) "/publicacoes/76-institucional/2293-unb-inicia-operacoes-com-novo-sistema-de-gestao"
+  ["date"]=>
+  string(10) "05/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/76-institucional/2293-unb-inicia-operacoes-com-novo-sistema-de-gestao" itemprop="url">
+											<span itemprop="name">
+												UnB inicia operações com novo sistema de gestão											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+</div><div class="item">								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2088 (5) {
+  ["image"]=>
+  string(77) "/images/Noticias/2018/07-Jul/64_AvaliaaoPosGraduaao_RaquelAviani_29062018.jpg"
+  ["title"]=>
+  string(50) "Seminário aborda novidades na avaliação da pós"
+  ["author"]=>
+  string(141) "Acesso a documentos de área na metade do ciclo avaliativo é alteração que passa a valer em breve. Diretora da Capes explicou mudanças"
+  ["link"]=>
+  string(77) "/publicacoes/117-pesquisa/2374-seminario-aborda-novidades-na-avaliacao-da-pos"
+  ["date"]=>
+  string(10) "04/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/117-pesquisa/2374-seminario-aborda-novidades-na-avaliacao-da-pos" itemprop="url">
+											<span itemprop="name">
+												Seminário aborda novidades na avaliação da pós											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#1680 (5) {
+  ["image"]=>
+  string(70) "/images/Noticias/2018/07-Jul/91_Reitorano-IG_RaquelAviani_29062018.jpg"
+  ["title"]=>
+  string(41) "Reitoria visita Instituto de Geociências"
+  ["author"]=>
+  string(149) "Representantes da administração superior ouviram demandas de professores, técnicos e estudantes. Iniciativa tem foco em transparência na gestão"
+  ["link"]=>
+  string(75) "/publicacoes/76-institucional/2376-reitoria-visita-instituto-de-geociencias"
+  ["date"]=>
+  string(10) "04/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/76-institucional/2376-reitoria-visita-instituto-de-geociencias" itemprop="url">
+											<span itemprop="name">
+												Reitoria visita Instituto de Geociências											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+</div><div class="item">								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2075 (5) {
+  ["image"]=>
+  string(60) "/images/Noticias/2018/07-Jul/03jul18_possefav_lgprado_08.JPG"
+  ["title"]=>
+  string(46) "Direção da FAV dará continuidade à gestão"
+  ["author"]=>
+  string(157) "Simone Perecmanis e José Ricardo Peixoto são reconduzidos aos cargos para mais um quadriênio à frente da Faculdade de Agronomia e Medicina Veterinária"
+  ["link"]=>
+  string(76) "/publicacoes/76-institucional/2375-direcao-da-fav-dara-continuidade-a-gestao"
+  ["date"]=>
+  string(10) "03/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/76-institucional/2375-direcao-da-fav-dara-continuidade-a-gestao" itemprop="url">
+											<span itemprop="name">
+												Direção da FAV dará continuidade à gestão											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+								  
+						<div class="itemlastnews">
+							<div class="itemlastnews-inner">
+																	<div class="chapeu-data">
+										<span class="chapeu"></span>
+										<span class="divisor">.</span>
+										<span class="data">
+											<!--object(stdClass)#2072 (5) {
+  ["image"]=>
+  string(78) "/images/Noticias/Fotos_frequentes/ICC/cotidiano----26ago15--Jlio-Minasi-37.JPG"
+  ["title"]=>
+  string(47) "Universidade de Brasília convoca para o SISUnB"
+  ["author"]=>
+  string(119) "Resultado final nos itens tipo D e na prova de redação em língua portuguesa está disponível na página do Cebraspe"
+  ["link"]=>
+  string(74) "/publicacoes/67-ensino/2377-universidade-de-brasilia-convoca-para-o-sisunb"
+  ["date"]=>
+  string(10) "03/07/2018"
+}
+ -->
+											10/07/2018										</span>
+									</div>
+									<h5>
+										<a target="_blanck" href="http://www.noticias.unb.br//publicacoes/67-ensino/2377-universidade-de-brasilia-convoca-para-o-sisunb" itemprop="url">
+											<span itemprop="name">
+												Universidade de Brasília convoca para o SISUnB											</span>
+										</a>
+									</h5>
+																<div class="clearfix"></div>
+							</div>
+						</div>
+                     
+                  </div> 
+                </div>
+            </div>
+    <div class="carousel-footer">
+        <div class="controles-carousel pull-left">
+            <a class="carousel-control-multi left" href="#carousel-207" data-slide="next">&nbsp;</a>
+                        
+            <a class
+2000
+="carousel-control-multi right" href="#carousel-207" data-slide="prev">&nbsp;</a>
+        </div>
+        <a class="link-categoria pull-right" target="_blanck" href="http://noticias.unb.br/publicacoes" >
+            <span>+</span>
+        </a>
+        <div class="clearfix"></div>
+    </div>
+</div>
+					<!-- End Content -->
+				</main>
+								
+			</div>
+
+      <div class="row-fluid destaques">
+                 </div>
+ 	 </div>
+					    <!--<style>
+  
+       a:hover {
+         color:#fff;
+         
+      }</style>-->
+	<!-- Footer --> 
+	<footer class="footer" role="contentinfo">
+		<!--<div class="footer-inner">
+							<div class="menu-footer container">
+					
+				</div>
+						<div class="clearfix"></div>
+			<hr />
+			
+			<div class="creditos text-center container">
+				<p>
+					<em>Campus</em> Universitário Darcy Ribeiro, Brasília-DF | CEP 70910-900 | telefone geral 55 61 3107 3300 <br />
+					Copyright &copy; 2018 Universidade de Brasília. Todos os direitos reservados.
+				</p>
+			</div>
+		</div>-->
+
+       <link type="text/css" href="https://web.unb.br/templates/compartilhado/css/template.css" rel="stylesheet">
+  	<footer class="footer" role="contentinfo">
+	<div class="footer-inner">
+		<div class="menu-footer container">
+  
+<!-- <footer class="footer" role="contentinfo">
+	<div class="footer-inner">
+		<div class="menu-footer container"> -->
+			<ul class="nav menu">
+			<li class="item-113 divider deeper parent"><span class="separator">
+	Institucional</span>
+<ul class="nav-child unstyled small"><li class="item-114"><a href="http://www.unb.br/institucional" >Sobre a UnB</a></li><li class="item-221"><a href="http://www.dpo.unb.br/dados_institucional.php" >Números</a></li><li class="item-222"><a href="http://www.unb.br/campi?menu=424" >Conheça os campi</a></li><li class="item-223"><a href="http://www.unb.br/servicos/transporte" >Como chegar</a></li><li class="item-224"><a href="http://www.unb.br/images/Noticias/2016/Documentos/regimento_estatuto_unb.pdf" >Estatuto e Regimento</a></li><li class="item-257"><a href="http://www.unb.br/images/Noticias/2016/Documentos/Carta_Cidadao.pdf?menu=475" >Carta de serviços</a></li></ul></li><li class="item-259 divider deeper parent"><span class="separator">
+	Unidades acadêmicas</span>
+<ul class="nav-child unstyled small"><li class="item-260"><a href="http://www.unb.br/estrutura-administrativa/centros?menu=425" >Centros</a></li><li class="item-261"><a href="http://www.unb.br/unidades-academicas/faculdades" >Faculdades</a></li><li class="item-262"><a href="http://www.unb.br/unidades-academicas/institutos" >Institutos</a></li><li class="item-263"><a href="http://www.unb.br/unidades-academicas/laboratorios" >Laboratórios</a></li><li class="item-264"><a href="http://www.unb.br/unidades-academicas/nucleos" >Núcleos</a></li><li class="item-277"><a href="http://www.fal.unb.br/" >Fazenda Água Limpa</a></li></ul></li><li class="item-265 divider deeper parent"><span class="separator">
+	Graduação</span>
+<ul class="nav-child unstyled small"><li class="item-266"><a href="http://www.unb.br/graduacao/cursos-presenciais?menu=439" >Cursos presenciais</a></li><li class="item-267"><a href="http://www.unb.br/graduacao/curso-a-distancia?menu=439" >Cursos a distância</a></li><li class="item-268"><a href="http://www.unb.br/graduacao2/formas-de-ingresso?menu=434" >Formas de admissão</a></li><li class="item-269"><a href="http://www.unb2.unb.br/administracao/diretorias/dds/assistenciaestudantil/" target="_blank" >Assistência estudantil</a></li><li class="item-270"><a href="http://www.unb.br/oportunidades/estagio?menu=456" >Estágio</a></li><li class="item-271"><a href="http://www.unb.br/aluno/ex-aluno" >Ex-aluno</a></li><li class="item-272"><a href="https://matriculaweb.unb.br/" target="_blank" >Matrícula Web</a></li></ul></li><li class="item-128 divider deeper parent"><span class="separator">
+	Pós-graduação</span>
+<ul class="nav-child unstyled small"><li class="item-130"><a href="https://matriculaweb.unb.br/posgraduacao/default.aspx" target="_blank" >Mestrado e doutorado</a></li><li class="item-129"><a href="http://www.unb2.unb.br/posgraduacao/lato_sensu/cursos.php?menu=440" target="_blank" >Especialização</a></li><li class="item-131"><a href="http://www.unb.br/atendimento?menu=471" >Apoio ao aluno</a></li><li class="item-132"><a href="http://dpp.unb.br/index.php?option=com_phocadownload&amp;view=category&amp;id=101&amp;Itemid=419" target="_blank" >Legislação</a></li><li class="item-133"><a href="http://www.saa.unb.br/revalidacao-diploma" target="_blank" >Revalidação de diploma</a></li><li class="item-134"><a href="http://dpp.unb.br/index.php?option=com_content&amp;view=article&amp;id=451&amp;Itemid=327" target="_blank" >Pesquisa</a></li><li class="item-135"><a href="http://dpp.unb.br/index.php?option=com_content&amp;view=article&amp;id=511&amp;Itemid=420" target="_blank" >Coordenadores</a></li></ul></li><li class="item-122 divider deeper parent"><span class="separator">
+	Outras unidades</span>
+<ul class="nav-child unstyled small"><li class="item-273"><a href="http://www.bce.unb.br/" >Biblioteca Central</a></li><li class="item-123"><a href="http://www.cpd.unb.br" >Centro de Informática</a></li><li class="item-124"><a href="http://www.editora.unb.br/" >Editora UnB</a></li><li class="item-138"><a href="http://www.ebserh.gov.br/web/hub-unb" >Hospital Universitário</a></li><li class="item-142"><a href="http://www.arquivocentral.unb.br/" >Arquivo Central</a></li><li class="item-274"><a href="http://www.int.unb.br/" >Assuntos Internacionais</a></li><li class="item-275"><a href="http://www.cdt.unb.br/" >Desenvolvimento Tecnológico</a></li><li class="item-278"><a href="http://www.saa.unb.br/" >Administração Acadêmica</a></li><li class="item-279"><a href="http://www.cespe.unb.br/" target="_blank" >Cespe/Cebraspe</a></li></ul></li><li class="item-280 divider deeper parent"><span class="separator">
+	Administração</span>
+<ul class="nav-child unstyled small"><li class="item-284"><a href="http://www.unb.br/estrutura-administrativa/conselhos?menu=425" >Conselhos e câmaras</a></li><li class="item-281"><a href="http://www.unb.br/estrutura-administrativa/reitoria?menu=425" >Reitoria</a></li><li class="item-282"><a href="http://www.unb.br/estrutura-administrativa/vice-reitoria?menu=425" >Vice-Reitoria</a></li><li class="item-283"><a href="http://www.unb.br/estrutura-administrativa/decanatos?menu=425" >Decanatos</a></li><li class="item-285"><a href="http://www.prc.unb.br/Novo/index.php" >Prefeitura do Campus</a></li><li class="item-286"><a href="http://www.unb2.unb.br/administracao/procuradoria_juridica/index.php" target="_blank" >Procuradoria Jurídica</a></li><li class="item-287"><a href="http://www.unb2.unb.br/administracao/auditoria_interna" target="_blank" >Auditoria</a></li><li class="item-146"><a href="http://www.comissaodeetica.unb.br" target="_blank" >Comissão de Ética</a></li></ul></li><li class="item-173 divider deeper parent"><span class="separator">
+	Comunicação</span>
+<ul class="nav-child unstyled small"><li class="item-174"><a href="http://www.noticias.unb.br/" >Notícias</a></li><li class="item-175"><a href="http://www.noticias.unb.br/atender" >Secom</a></li><li class="item-225"><a href="http://www.noticias.unb.br/component/agenda/agendas" >UnB Agenda</a></li><li class="item-289"><a href="http://www.unbtv.unb.br/" >UnBTV</a></li><li class="item-290"><a href="http://www.noticias.unb.br/unb-hoje" >UnB Hoje</a></li><li class="item-291"><a href="http://www.unb.br/comunidade/nossos-pesquisadores" target="_blank" >Nossos pesquisadores</a></li><li class="item-292"><a href="http://www.unb2.unb.br/administracao/ceri/" target="_blank" >Cerimonial</a></li><li class="item-293"><a href="http://www.marca.unb.br" >Marca UnB</a></li></ul></li><li class="item-143 divider deeper parent"><span class="separator">
+	Acesso à informação</span>
+<ul class="nav-child unstyled small"><li class="item-295"><a href="http://www.portaldatransparencia.gov.br/" target="_blank" >Transparência pública</a></li><li class="item-144"><a href="http://www.unb.br/documentos/transparencia-unb?menu=475" >Transparência UnB</a></li><li clas
+f33
+s="item-145"><a href="http://www.ouvidoria.unb.br/" >Ouvidoria UnB</a></li><li class="item-147"><a href="http://www.dpo.unb.br/documentos/relatorio_autoavaliacao_2014.pdf" target="_blank" >Autoavaliação institucional</a></li><li class="item-148"><a href="http://www.noticias.unb.br/images/Noticias/Docs/Cronograma_encerramento_atv.pdf" target="_blank" >Encerramento de Atividades 2016</a></li></ul></li><li class="item-226 divider deeper parent"><span class="separator">
+	Servidor</span>
+<ul class="nav-child unstyled small"><li class="item-231"><a href="http://www.dgp.unb.br/docente" target="_blank" >Docente</a></li><li class="item-230"><a href="https://www.sigraweb.unb.br/SigraWeb/Fronteira/paginaajudalogin.htm" target="_blank" >Menção Web</a></li><li class="item-137"><a href="http://dgp.unb.br/concursos/tecnico-administrativo" target="_blank" >Técnico</a></li><li class="item-227"><a href="http://www.dgp.unb.br/guia-do-servidor" target="_blank" >Guia</a></li><li class="item-140"><a href="http://www.unb.br/servidor/sindicatos-e-associacoes" >Sindicatos e associações</a></li></ul></li><li class="item-296 divider deeper parent"><span class="separator">
+	Links rápidos</span>
+<ul class="nav-child unstyled small"><li class="item-141"><a href="http://www-periodicos-capes-gov-br.ez54.periodicos.capes.gov.br/index.php?option=com_phome" target="_blank" >Periódicos Capes</a></li><li class="item-139"><a href="http://www.sgp.unb.br/locacao-de-imoveis-residenciais" target="_blank" >Imóveis UnB</a></li><li class="item-298"><a href="http://www.unbfuturo.unb.br/" target="_blank" >UnB Futuro</a></li><li class="item-299"><a href="http://www.unbidiomas.unb.br/" target="_blank" >UnB Idiomas</a></li><li class="item-220"><a href="http://www.sistemas.unb.br/" target="_blank" >Sistemas</a></li><li class="item-300"><a href="http://www.unb2.unb.br/" target="_blank" >Acesse o portal antigo</a></li></ul></li></ul>
+<!-- 		</div>
+<div class="clearfix"></div>
+<hr>
+<div class="creditos text-center container">
+	<p>
+		<em>Campus</em>
+		Universitário Darcy Ribeiro, Brasília-DF | CEP 70910-900 | telefone geral 55 61 3107 3300
+		<br>
+		Copyright © 2015 Universidade de Brasília. Todos os direitos reservados.
+	</p>
+</div>
+	</div>
+</footer> -->
+
+  		</div>
+		<div class="clearfix"></div>
+		<hr>
+		<div class="creditos text-center container">
+			<p>
+				<em>Campus</em>
+				Universitário Darcy Ribeiro, Brasília-DF | CEP 70910-900 |
+ <a href="https://www.unb.br/images/mprazer.pdf">Telefones UnB </a>
+				<br>
+				Copyright © 2016 Universidade de Brasília. Todos os direitos reservados.
+			</p>
+		</div>
+	</div>
+	</footer>
+
+  
+
+	
+    </footer>
+	
+
+<div class="custom"  >
+	<script>// <![CDATA[
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85991647-1', 'auto');
+  ga('send', 'pageview');
+// ]]></script></div>
+<a href='http://www.extrawatch.com'>&nbsp;</a><script type="text/javascript" id="extraWatchAgent">
+
+		var extraWatchAjaxLink = "%2F%3Foption%3Dcom_ajax%26module%3Dextrawatch_agent%26format%3Draw%26origin%3Dfrontend%26ewToken%3Dd49d7cae8ad9dc15cfd83c43d01e08e1b84eebed%26task%3Dajax%26action%3D";
+
+		var extraWatchLiveSite = "%2F";
+
+		var extraWatchEnv = "ExtraWatchJoomlaEnv";
+
+        (function() {
+
+        var ew = document.createElement('script');
+        ew.type = 'text/javascript'; ew.async = true;
+
+        ew.src = "/components/com_extrawatch/js/agent.js?env=ExtraWatchJoomlaEnv&rand="+ Math.random();
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ew, s);
+
+        })();
+
+        </script>
+        
+</body>
+</html>
+
+0
+

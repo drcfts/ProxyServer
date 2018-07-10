@@ -8,6 +8,8 @@
 #include <strings.h>
 #include <stdlib.h>
 #include <unistd.h> // close()
+#include <sys/wait.h>
+#include <sys/types.h>
 
 #include <netdb.h> // getaddrinfo
 #include <mutex>
@@ -116,17 +118,22 @@ void ProxyServer::ProxyRequest(int client_fd, int inspection){
     printf("Digite a opcao:\n1)- Spider\n2)- Dump/Cliente Recursivo\n3)- Continuar inspecao\n");
     printf("*****************************\n");
     int opcao_usuario;
+    char *url = (char *)malloc(strlen(req->host)+strlen(req->path));
+    url[0] = '\0';
+    strcpy(url, req->host);
+    strcat(url, req->path);
     scanf("%d", &opcao_usuario);
     switch(opcao_usuario){
       case 1:
         printf("\nSpider escolhido...\n");
-        spider(req->host);
+        spider(url);
       break;
       case 2:
         printf("\nDump escolhido...\n");
-        dump(req->host);
+        dump(url);
       break;
       default:
+        int status;
         int PID = fork();
 
         if(!PID){
@@ -155,6 +162,8 @@ void ProxyServer::ProxyRequest(int client_fd, int inspection){
           close(remote_socket);
           _exit(0);
         }
+
+        while (wait(&status) != PID);
       break;
     }
 
